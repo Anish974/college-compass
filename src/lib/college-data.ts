@@ -57,6 +57,65 @@ const OPEN_KEY: Record<SeatType, string[]> = {
  */
 export type InstituteType = "government" | "autonomous" | "affiliated" | "non-cap";
 
+export type Tier = 1 | 2 | 3;
+export const TIERS: Tier[] = [1, 2, 3];
+
+export interface PlacementInfo {
+  avgPackage: number;
+  highestPackage: number;
+  topRecruiters: string[];
+}
+
+export interface FeeStructure {
+  totalAnnualFee: number;
+  feeType: string;
+}
+
+export const TIER_META: Record<
+  Tier,
+  { label: string; badge: string; color: string; ring: string; soft: string; text: string; desc: string }
+> = {
+  1: {
+    label: "Tier 1",
+    badge: "T1",
+    color: "#10b981", // Emerald
+    ring: "#059669",
+    soft: "#d1fae5",
+    text: "#065f46",
+    desc: "Top premier colleges with stellar placement track records & highest cutoffs",
+  },
+  2: {
+    label: "Tier 2",
+    badge: "T2",
+    color: "#3b82f6", // Blue
+    ring: "#2563eb",
+    soft: "#dbeafe",
+    text: "#1e40af",
+    desc: "Established autonomous/reputed engineering colleges with strong industry ties",
+  },
+  3: {
+    label: "Tier 3",
+    badge: "T3",
+    color: "#f97316", // Orange
+    ring: "#ea580c",
+    soft: "#ffedd5",
+    text: "#9a3412",
+    desc: "Regional engineering colleges providing foundational technical education",
+  },
+};
+
+export function formatCurrencyLakhs(amount: number): string {
+  if (amount >= 100000) {
+    const l = amount / 100000;
+    return `₹${l.toFixed(l % 1 === 0 ? 0 : 2)} L`;
+  }
+  return `₹${(amount / 1000).toFixed(0)}k`;
+}
+
+export function formatPackage(lpa: number): string {
+  return `₹${lpa.toFixed(1)} LPA`;
+}
+
 export interface LatLng {
   lat: number;
   lng: number;
@@ -83,6 +142,9 @@ export interface College {
   geo: { osm: string; matched: string; query: string } | null;
   capParticipant: boolean;
   courses: Course[];
+  tier: Tier;
+  placement: PlacementInfo;
+  feeStructure: FeeStructure;
   /** Present only for CAP-participating institutes. */
   instituteCode?: string;
   address?: string;
@@ -354,6 +416,9 @@ export function summaryLine(c: College): string {
 
 export interface Filters {
   types: InstituteType[];
+  tiers: Tier[];
+  minAvgPackage: number;
+  maxAnnualFee: number;
   maxDistance: number;
   branch: BranchFilter;
   percentile: number;
@@ -366,6 +431,9 @@ export interface Filters {
 
 export const DEFAULT_FILTERS: Filters = {
   types: [...INSTITUTE_TYPES],
+  tiers: [1, 2, 3],
+  minAvgPackage: 0,
+  maxAnnualFee: 500000,
   maxDistance: 50,
   branch: "All",
   percentile: 99.9,
@@ -378,6 +446,9 @@ export const DEFAULT_FILTERS: Filters = {
 
 export function matchesFilters(city: CityData, c: College, f: Filters): boolean {
   if (!f.types.includes(instituteType(c))) return false;
+  if (f.tiers && f.tiers.length > 0 && !f.tiers.includes(c.tier)) return false;
+  if (f.minAvgPackage > 0 && (c.placement?.avgPackage ?? 0) < f.minAvgPackage) return false;
+  if (f.maxAnnualFee < 500000 && (c.feeStructure?.totalAnnualFee ?? 0) > f.maxAnnualFee) return false;
   const dist = hubDistanceKm(city, c);
   // A campus with no coordinate cannot be distance-filtered; keep it visible in
   // the list rather than silently dropping a real college.

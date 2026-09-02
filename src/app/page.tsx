@@ -25,6 +25,8 @@ import {
   CITIES,
   TOTAL_COLLEGES,
   TYPE_META,
+  TIERS,
+  TIER_META,
   INSTITUTE_TYPES,
   DEFAULT_FILTERS,
   PROVENANCE,
@@ -280,10 +282,10 @@ export default function Home() {
 function Legend() {
   const items = [
     { icon: <Star className="h-3 w-3" />, color: "#14b8a6", label: "City Hub" },
-    ...INSTITUTE_TYPES.map((t) => ({
+    ...TIERS.map((t) => ({
       icon: <GraduationCap className="h-3 w-3" />,
-      color: TYPE_META[t].color,
-      label: TYPE_META[t].label,
+      color: TIER_META[t].color,
+      label: TIER_META[t].label,
     })),
     { icon: <Train className="h-3 w-3" />, color: "#8b5cf6", label: "Railway" },
     { icon: <Bus className="h-3 w-3" />, color: "#eab308", label: "Bus Stop" },

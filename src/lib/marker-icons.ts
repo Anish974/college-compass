@@ -1,7 +1,7 @@
 // SVG-based marker HTML snippets used to build Leaflet divIcons.
 // Inline SVG keeps markers crisp, themeable, and free of external image deps.
 
-import { TYPE_META, type InstituteType } from "./college-data";
+import { TYPE_META, TIER_META, type InstituteType, type Tier } from "./college-data";
 
 const wrap = (inner: string, bg: string, size = 28) =>
   `<div class="chm-pin" style="width:${size}px;height:${size}px;background:${bg};">${inner}</div>`;
@@ -9,8 +9,8 @@ const wrap = (inner: string, bg: string, size = 28) =>
 const svg = (path: string) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
 
-export function collegeIcon(type: InstituteType, size = 28): string {
-  const c = TYPE_META[type].color;
+export function collegeIcon(type: InstituteType, tier?: Tier, size = 28): string {
+  const c = tier ? TIER_META[tier].color : TYPE_META[type].color;
   // graduation-cap path
   const cap =
     '<path d="M22 10L12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.5 3 6 3s6-2 6-3v-5"/>';

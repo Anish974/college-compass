@@ -17,6 +17,9 @@ import {
   Layers,
   GitBranch,
   Target,
+  Briefcase,
+  IndianRupee,
+  Trophy,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
@@ -36,6 +39,10 @@ import {
   CITIES,
   CITY_LIST,
   TYPE_META,
+  TIERS,
+  TIER_META,
+  formatCurrencyLakhs,
+  formatPackage,
   INSTITUTE_TYPES,
   BRANCHES,
   BRANCH_LABELS,
@@ -51,6 +58,7 @@ import {
   type CityId,
   type Filters,
   type InstituteType,
+  type Tier,
   type BranchFilter,
 } from "@/lib/college-data";
 
@@ -92,6 +100,13 @@ export default function Sidebar({
     onChange({ ...filters, types: next.length ? next : [type] });
   };
 
+  const toggleTier = (tier: Tier) => {
+    const next = filters.tiers.includes(tier)
+      ? filters.tiers.filter((t) => t !== tier)
+      : [...filters.tiers, tier];
+    onChange({ ...filters, tiers: next.length ? next : [tier] });
+  };
+
   const toggle = (key: keyof Filters, checked: boolean) =>
     onChange({ ...filters, [key]: checked });
 
@@ -111,6 +126,9 @@ export default function Sidebar({
       shortName: string;
       code: string;
       type: InstituteType;
+      tier: Tier;
+      avgPackage?: number;
+      fee?: number;
     }[] = [];
     for (const c of CITY_LIST) {
       for (const col of c.colleges) {
@@ -127,6 +145,9 @@ export default function Sidebar({
             shortName: col.shortName,
             code: col.instituteCode ?? "—",
             type: instituteType(col),
+            tier: col.tier,
+            avgPackage: col.placement?.avgPackage,
+            fee: col.feeStructure?.totalAnnualFee,
           });
         }
       }
@@ -241,6 +262,7 @@ export default function Sidebar({
                 )}
                 {searchResults.map((r) => {
                   const meta = TYPE_META[r.type];
+                  const tierMeta = TIER_META[r.tier];
                   const crossCity = r.cityId !== cityId;
                   return (
                     <button
@@ -253,20 +275,29 @@ export default function Sidebar({
                       suppressHydrationWarning
                     >
                       <span
-                        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white"
-                        style={{ backgroundColor: meta.color }}
+                        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white font-bold text-[10px]"
+                        style={{ backgroundColor: tierMeta.color }}
+                        title={tierMeta.label}
                       >
-                        <GraduationCap className="h-3 w-3" />
+                        {tierMeta.badge}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <div className="text-xs font-semibold text-sidebar-foreground truncate">
-                          {r.shortName}
-                          <span className="ml-1.5 text-[10px] font-normal text-sidebar-foreground/60">
-                            #{r.code}
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="text-xs font-semibold text-sidebar-foreground truncate">
+                            {r.shortName}
+                            <span className="ml-1 text-[10px] font-normal text-sidebar-foreground/60">
+                              #{r.code}
+                            </span>
                           </span>
+                          {r.avgPackage ? (
+                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                              ₹{r.avgPackage} LPA
+                            </span>
+                          ) : null}
                         </div>
                         <div className="text-[10px] text-sidebar-foreground/75 truncate">
                           {r.name}
+                          {r.fee ? ` · ${formatCurrencyLakhs(r.fee)}/yr` : ""}
                         </div>
                       </div>
                       <Badge
@@ -392,6 +423,104 @@ export default function Sidebar({
                   </button>
                 );
               })}
+            </div>
+          {/* College Tier filter (Tier 1, 2, 3) */}
+          <section>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-sidebar-foreground/75 flex items-center gap-1.5">
+                <Trophy className="h-3.5 w-3.5 text-amber-500" /> College Tier
+              </h3>
+              <Badge variant="secondary" className="text-[10px] h-5 bg-muted text-sidebar-foreground">
+                {filters.tiers.length}/{TIERS.length}
+              </Badge>
+            </div>
+            <div className="grid grid-cols-3 gap-1.5">
+              {TIERS.map((t) => {
+                const meta = TIER_META[t];
+                const active = filters.tiers.includes(t);
+                return (
+                  <button
+                    key={t}
+                    onClick={() => toggleTier(t)}
+                    title={meta.desc}
+                    aria-pressed={active}
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 rounded-lg border py-2 text-xs font-bold transition-all",
+                      active
+                        ? "text-white shadow-xs"
+                        : "bg-sidebar text-sidebar-foreground border-sidebar-border hover:border-muted-foreground"
+                    )}
+                    style={
+                      active
+                        ? {
+                            backgroundColor: meta.color,
+                            borderColor: meta.color,
+                            boxShadow: `0 0 0 2px ${meta.color}33`,
+                          }
+                        : undefined
+                    }
+                    suppressHydrationWarning
+                  >
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: active ? "#fff" : meta.color }}
+                    />
+                    {meta.label}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Min Avg Package Slider (Placements) */}
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-sidebar-foreground/75 flex items-center gap-1">
+                <Briefcase className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> Min Avg Package
+              </h3>
+              <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                {filters.minAvgPackage === 0 ? "Any Package" : `${filters.minAvgPackage} LPA+`}
+              </span>
+            </div>
+            <Slider
+              value={[filters.minAvgPackage]}
+              min={0}
+              max={15}
+              step={0.5}
+              onValueChange={(v) => onChange({ ...filters, minAvgPackage: v[0] })}
+              aria-label="Minimum average placement package in LPA"
+            />
+            <div className="flex justify-between mt-1.5 text-[10px] text-sidebar-foreground/60">
+              <span>Any</span>
+              <span>5 LPA</span>
+              <span>10 LPA</span>
+              <span>15+ LPA</span>
+            </div>
+          </section>
+
+          {/* Max Annual Fee Slider (Fee Structure) */}
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-sidebar-foreground/75 flex items-center gap-1">
+                <IndianRupee className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" /> Max Annual Fee
+              </h3>
+              <span className="text-sm font-bold text-blue-600 dark:text-blue-400 tabular-nums">
+                {filters.maxAnnualFee >= 500000 ? "Any Fee" : `${formatCurrencyLakhs(filters.maxAnnualFee)} / yr`}
+              </span>
+            </div>
+            <Slider
+              value={[filters.maxAnnualFee]}
+              min={25000}
+              max={500000}
+              step={25000}
+              onValueChange={(v) => onChange({ ...filters, maxAnnualFee: v[0] })}
+              aria-label="Maximum annual tuition fee"
+            />
+            <div className="flex justify-between mt-1.5 text-[10px] text-sidebar-foreground/60">
+              <span>₹25k</span>
+              <span>₹1.5 L</span>
+              <span>₹3 L</span>
+              <span>Any</span>
             </div>
           </section>
 
@@ -530,6 +659,7 @@ export default function Sidebar({
               )}
               {shownColleges.map((c) => {
                 const meta = TYPE_META[instituteType(c)];
+                const tierMeta = TIER_META[c.tier];
                 const dist = hubDistanceKm(city, c);
                 const active = selectedCollegeId === c.id;
                 return (
@@ -540,7 +670,7 @@ export default function Sidebar({
                       onOpenChange(false);
                     }}
                     className={cn(
-                      "w-full flex items-center gap-2.5 rounded-lg border p-2 text-left transition-all",
+                      "w-full flex items-start gap-2.5 rounded-lg border p-2 text-left transition-all",
                       active
                         ? "border-primary bg-primary/10 ring-1 ring-primary/20"
                         : "border-sidebar-border bg-sidebar hover:border-muted-foreground hover:bg-muted/20 text-sidebar-foreground"
@@ -548,24 +678,32 @@ export default function Sidebar({
                     suppressHydrationWarning
                   >
                     <span
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white"
-                      style={{ backgroundColor: meta.color }}
+                      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white font-bold text-[10px]"
+                      style={{ backgroundColor: tierMeta.color }}
+                      title={`${tierMeta.label} · ${meta.label}`}
                     >
-                      <GraduationCap className="h-3.5 w-3.5" />
+                      {tierMeta.badge}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-semibold text-sidebar-foreground truncate">
-                        {c.shortName}
-                        {c.instituteCode && (
-                          <span className="ml-1 text-[10px] font-normal text-sidebar-foreground/60">
-                            #{c.instituteCode}
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="text-xs font-semibold text-sidebar-foreground truncate">
+                          {c.shortName}
+                          {c.instituteCode && (
+                            <span className="ml-1 text-[10px] font-normal text-sidebar-foreground/60">
+                              #{c.instituteCode}
+                            </span>
+                          )}
+                        </span>
+                        {c.placement?.avgPackage ? (
+                          <span className="shrink-0 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                            ₹{c.placement.avgPackage} LPA
                           </span>
-                        )}
+                        ) : null}
                       </div>
-                      <div className="text-[10px] text-sidebar-foreground/75 truncate">
-                        {meta.label}
+                      <div className="text-[10px] text-sidebar-foreground/75 truncate mt-0.5">
+                        <span style={{ color: tierMeta.color }} className="font-semibold">{tierMeta.label}</span>
+                        {c.feeStructure?.totalAnnualFee ? ` · ${formatCurrencyLakhs(c.feeStructure.totalAnnualFee)}/yr` : ""}
                         {dist !== null ? ` · ${dist.toFixed(1)} km` : ""}
-                        {c.totalIntake ? ` · ${c.totalIntake} seats` : ""}
                       </div>
                     </div>
                   </button>

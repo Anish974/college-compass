@@ -27,6 +27,12 @@ model College {
   name            String
   shortName       String
   instituteCode   String?
+  tier            Int?
+  avgPackage      Float?
+  highestPackage  Float?
+  topRecruiters   Json?
+  annualFee       Int?
+  feeType         String?
   status          String?
   autonomy        String?
   university      String?
@@ -43,6 +49,7 @@ model College {
 
   @@index([cityId])
   @@index([instituteCode])
+  @@index([tier])
 }
 
 model Course {

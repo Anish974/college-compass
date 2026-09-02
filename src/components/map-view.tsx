@@ -11,6 +11,8 @@ import {
   instituteType,
   visibleColleges,
   TYPE_META,
+  TIER_META,
+  formatCurrencyLakhs,
   type CityId,
   type CityData,
   type Filters,
@@ -231,16 +233,20 @@ export default function MapView({
       const marker = L.marker([at.lat, at.lng], {
         icon: L.divIcon({
           className: "chm-college-divicon",
-          html: collegeIcon(type),
+          html: collegeIcon(type, c.tier),
           iconSize: [28, 28],
           iconAnchor: [14, 30],
         }),
         zIndexOffset: 500,
       });
+      const tierMeta = TIER_META[c.tier];
+      const pkg = c.placement?.avgPackage ? `${c.placement.avgPackage} LPA avg` : "";
+      const fee = c.feeStructure?.totalAnnualFee ? `${formatCurrencyLakhs(c.feeStructure.totalAnnualFee)}/yr` : "";
+      const highlight = [pkg, fee].filter(Boolean).join(" · ");
       marker.bindTooltip(
-        `<strong>${c.name}</strong><br/><span style="opacity:.85">${code}${
+        `<strong>${c.name}</strong><br/><span style="color:${tierMeta.color};font-weight:700;">${tierMeta.label}</span> · <span style="opacity:.85">${code}${
           meta.label
-        } · ${dist !== null ? `${dist.toFixed(1)} km` : "distance n/a"}${approx}</span>`,
+        }</span>${highlight ? `<br/><span style="color:#0ea5e9;font-weight:600;">${highlight}</span>` : ""}<br/><span style="opacity:.75;">${dist !== null ? `${dist.toFixed(1)} km from hub` : "distance n/a"}${approx}</span>`,
         { direction: "top", offset: [0, -28], className: "chm-thread-tooltip" }
       );
       marker.on("click", () => {

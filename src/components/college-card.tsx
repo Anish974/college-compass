@@ -16,12 +16,19 @@ import {
   FileText,
   Info,
   AlertTriangle,
+  Briefcase,
+  IndianRupee,
+  Trophy,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   getCity,
   TYPE_META,
+  TIER_META,
+  formatCurrencyLakhs,
+  formatPackage,
   CAP_ROUNDS,
   CAP_ROUND_LABELS,
   SEAT_TYPE_LABELS,
@@ -113,10 +120,16 @@ export default function CollegeCard({
         >
           <X className="h-4 w-4" />
         </button>
-        <div className="flex items-center gap-2 mb-1.5">
+        <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/25 text-white">
             <GraduationCap className="h-4 w-4" />
           </span>
+          <Badge
+            className="font-bold border-0 text-[10px] text-white shadow-xs"
+            style={{ backgroundColor: TIER_META[college.tier].color }}
+          >
+            {TIER_META[college.tier].label}
+          </Badge>
           <Badge className="bg-white/25 text-white border-0 hover:bg-white/25 text-[10px]">
             {meta.label}
           </Badge>
@@ -145,6 +158,92 @@ export default function CollegeCard({
             <MapPin className="mt-0.5 h-3 w-3 shrink-0" />
             {college.address}
           </p>
+        )}
+
+        {/* Placements Section */}
+        {college.placement && (
+          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-950/20 p-2.5">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-1.5">
+                <Briefcase className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-[11px] font-bold uppercase tracking-wide text-foreground">
+                  Placements (2024–25)
+                </span>
+              </div>
+              <span className="text-[10px] font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded-full">
+                {TIER_META[college.tier].label}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-2 mb-2">
+              <div className="rounded-lg bg-card/90 border border-border/60 p-2 text-center shadow-xs">
+                <span className="text-[10px] uppercase text-muted-foreground block font-medium">Avg Package</span>
+                <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400">
+                  {formatPackage(college.placement.avgPackage)}
+                </span>
+              </div>
+              <div className="rounded-lg bg-card/90 border border-border/60 p-2 text-center shadow-xs">
+                <span className="text-[10px] uppercase text-muted-foreground block font-medium">Highest Package</span>
+                <span className="text-base font-extrabold text-teal-600 dark:text-teal-400">
+                  {formatPackage(college.placement.highestPackage)}
+                </span>
+              </div>
+            </div>
+            {college.placement.topRecruiters?.length > 0 && (
+              <div>
+                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">
+                  Top Recruiters
+                </span>
+                <div className="flex flex-wrap gap-1">
+                  {college.placement.topRecruiters.map((r) => (
+                    <span
+                      key={r}
+                      className="rounded-md bg-muted/80 px-1.5 py-0.5 text-[10px] font-medium text-foreground/90 border border-border/50"
+                    >
+                      {r}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Fee Structure Section */}
+        {college.feeStructure && (
+          <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 dark:bg-blue-950/20 p-2.5">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-1.5">
+                <IndianRupee className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                <span className="text-[11px] font-bold uppercase tracking-wide text-foreground">
+                  Fee Structure
+                </span>
+              </div>
+              <span className="text-[10px] font-semibold text-blue-700 dark:text-blue-300 bg-blue-500/15 px-2 py-0.5 rounded-full">
+                {college.feeStructure.feeType}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="rounded-lg bg-card/90 border border-border/60 p-2 shadow-xs">
+                <span className="text-[10px] uppercase text-muted-foreground block font-medium">Annual College Fee</span>
+                <span className="text-sm sm:text-base font-bold text-foreground">
+                  {formatCurrencyLakhs(college.feeStructure.totalAnnualFee)} <span className="text-[10px] text-muted-foreground font-normal">/ yr</span>
+                </span>
+                <span className="text-[9px] text-muted-foreground block">
+                  (₹{college.feeStructure.totalAnnualFee.toLocaleString("en-IN")})
+                </span>
+              </div>
+              <div className="rounded-lg bg-card/90 border border-border/60 p-2 shadow-xs">
+                <span className="text-[10px] uppercase text-muted-foreground block font-medium">4-Year Total (Est.)</span>
+                <span className="text-sm sm:text-base font-bold text-foreground">
+                  {formatCurrencyLakhs(college.feeStructure.totalAnnualFee * 4)}
+                </span>
+                <span className="text-[9px] text-muted-foreground block">Tuition & development</span>
+              </div>
+            </div>
+            <p className="mt-1.5 text-[9px] text-muted-foreground leading-tight">
+              * Open/General category annual tuition & college fees. Reserved categories (OBC/EBC/SC/ST/TFWS) receive government fee concessions.
+            </p>
+          </div>
         )}
 
         {college.capParticipant ? (
