@@ -130,11 +130,11 @@ export default function Home() {
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center gap-3 min-w-0">
               <img
                 src="/logo.png"
                 alt="Campus Compass Logo"
-                className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 object-contain"
+                className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 object-contain dark:drop-shadow-[0_0_8px_rgba(45,212,191,0.65)] dark:brightness-110 transition-all"
               />
               <div className="min-w-0">
                 <h1 className="text-sm sm:text-base font-bold leading-tight truncate text-header-foreground">
