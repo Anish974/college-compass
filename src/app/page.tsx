@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import {
@@ -130,9 +131,11 @@ export default function Home() {
               <Menu className="h-5 w-5" />
             </Button>
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-teal-600 to-emerald-500 text-white shadow-sm dark:shadow-teal-500/20">
-                <GraduationCap className="h-5 w-5" />
-              </div>
+              <img
+                src="/logo.png"
+                alt="Campus Compass Logo"
+                className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 object-contain"
+              />
               <div className="min-w-0">
                 <h1 className="text-sm sm:text-base font-bold leading-tight truncate text-header-foreground">
                   Campus Compass
