@@ -1,16 +1,85 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model City {
+  id          String     @id
+  name        String
+  lat         Float
+  lng         Float
+  hubName     String
+  hubLat      Float
+  hubLng      Float
+  colleges    College[]
+  transits    Transit[]
+  landmarks   Landmark[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model College {
+  id              String      @id
+  name            String
+  shortName       String
+  instituteCode   String?
+  status          String?
+  autonomy        String?
+  university      String?
+  address         String?
+  district        String?
+  lat             Float?
+  lng             Float?
+  website         String?
+  cityId          String
+  city            City        @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  courses         Course[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([cityId])
+  @@index([instituteCode])
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  choiceCode  String
+  name        String
+  branch      String?
+  intake      Int?
+  cutoffsJson Json?
+  collegeId   String
+  college     College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
+  @@index([branch])
+}
+
+model Transit {
+  id        String   @id
+  name      String
+  type      String   // "railway" | "bus"
+  lat       Float
+  lng       Float
+  cityId    String
+  city      City     @relation(fields: [cityId], references: [id], onDelete: Cascade)
+
+  @@index([cityId])
+}
+
+model Landmark {
+  id        String   @id
+  name      String
+  lat       Float
+  lng       Float
+  cityId    String
+  city      City     @relation(fields: [cityId], references: [id], onDelete: Cascade)
+
+  @@index([cityId])
 }
 
 model User {

@@ -4,15 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
-    "start": "node .next/standalone/server.js",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
+    "start": "next start",
     "lint": "eslint .",
     "data:build": "python scripts/build_dataset.py .cap-cache",
     "data:test": "python scripts/test_parse_cap_cutoffs.py .cap-cache",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:reset": "prisma migrate reset"
+    "db:reset": "prisma migrate reset",
+    "db:seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
