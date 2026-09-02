@@ -37,10 +37,13 @@
 
 ## 🎯 The Problem & Our Solution
 
-During the MHT-CET CAP counseling rounds, students and parents face a tedious challenge: cross-referencing massive 100+ page PDF cutoff lists with real-world campus locations, travel times, and admission quotas.
+During the MHT-CET CAP counseling rounds, students and parents face a tedious challenge: cross-referencing massive 100+ page PDF cutoff lists with real-world campus locations, travel times, fee structures, and placement track records.
 
-**Campus Compass** unifies **spatial intelligence** with **academic admission data**:
+**Campus Compass** unifies **spatial intelligence** with **academic & career decision metrics**:
 - 📍 **Geographic Context**: View exact campus coordinates on interactive maps with real-time radial distance rings from central city landmarks.
+- 🏆 **Tier Classification (Tier 1, 2, 3)**: Instantly identify institution caliber via tiered map pins and badging (Tier 1 Emerald, Tier 2 Blue, Tier 3 Orange).
+- 💼 **Placement Track Records**: Inspect average salary packages (LPA), highest packages, and verified top recruiting partners for every campus.
+- 💰 **Fee Structure & Affordability**: Explore annual college fees, 4-year degree cost estimates, and FRA Maharashtra regulatory fee statuses.
 - 🎯 **Percentile Eligibility Engine**: Enter your MHT-CET percentile and preferred branch to see where you qualify, against the official CAP **Round I / II / III** closing percentiles for A.Y. 2026-27 — switchable per round.
 - 🏛️ **Seat-Type Aware**: Toggle between **Home University**, **Other than Home University** and **State Level** seat pools, exactly as DTE publishes them.
 - 📋 **Official Institute Record**: DTE institute code, address, status (Government / Un-Aided), autonomy, minority status, affiliating university and course-wise sanctioned intake — straight off the CAP portal.
@@ -51,6 +54,7 @@ During the MHT-CET CAP counseling rounds, students and parents face a tedious ch
 ## 🌟 Key Features
 
 * 🗺️ **Interactive Leaflet Map Engine**:
+  * **Tier-Colored Pins**: Map markers color-coded by institution tier (Tier 1 Emerald, Tier 2 Blue, Tier 3 Orange).
   * **Light Mode**: Crisp OpenStreetMap tiles with custom-styled SVG tier markers.
   * **Dark & Blue Modes**: Sleek CartoDB Dark Matter tiles with neon hub glows and node pins.
   * **Interactive Radius Circles**: Dynamic influence-radius circle representing the active distance filter.
@@ -60,14 +64,25 @@ During the MHT-CET CAP counseling rounds, students and parents face a tedious ch
   * **Nagpur**: Sitabuldi
   * **Amravati**: Rajkamal Square
   * *Displays dashed connecting threads from the hub to colleges with real-time hover distance calculations.*
-* 🔍 **Cross-City Global Search**: Search instantly by college name or official DTE (Directorate of Technical Education) institute codes. Selecting a result automatically switches the city view and highlights the campus.
+* 🏆 **College Tier System**:
+  * **Tier 1**: Premier institutes with stellar placements & highest cutoffs (COEP Tech, VJTI, PICT, SPIT, DJ Sanghvi, VNIT, IIIT Nagpur, etc.).
+  * **Tier 2**: Established autonomous and reputed affiliated colleges (VIT Pune, PCCOE, TSEC, YCCE, GHRCE, SVPCET, PRMITR, etc.).
+  * **Tier 3**: Regional engineering colleges providing foundational technical education.
+  * **Tier Filter**: Multi-select pills to isolate specific college tiers.
+* 💼 **Placement Statistics & Filtering**:
+  * Verified 2024–25 placement figures: Average Package (LPA), Highest Package (LPA), and Top Recruiters tag cloud.
+  * **Min Avg Package Slider**: Filter colleges offering starting average packages from `Any` up to `15+ LPA`.
+* 💰 **Fee Structure & Budgeting**:
+  * Annual college fees, 4-year total degree cost estimations, and FRA (Fees Regulating Authority) / Govt. subsidy badges.
+  * **Max Annual Fee Slider**: Filter colleges matching budget limits (`₹25k/yr` to `₹5 Lakh/yr` or `Any`).
+* 🔍 **Cross-City Global Search**: Search instantly by college name or official DTE institute codes. Search results feature Tier badges, average packages, and annual fees.
 * ⚡ **Advanced Multi-Criteria Filtering**:
   * **Branch Cutoffs & Percentile Eligibility**: Filter across major branches to show colleges where the closing cutoff $\le$ your percentile.
   * **CAP Round & Seat Type**: Every cutoff in the app re-reads from the round and seat pool you pick.
-  * **Institute Type**: Government / University, Autonomous (Un-Aided), Affiliated (Un-Aided), or outside the CAP — derived from the official Status and Autonomy fields, not a ranking.
+  * **Institute Type**: Government / University, Autonomous (Un-Aided), Affiliated (Un-Aided), or outside the CAP.
   * **Distance**: Filter colleges within a 1km to 50km+ radius from the city's central hub.
   * **Layer Toggles**: Show/hide connecting threads, transit points (railways, bus stands), and local landmarks.
-* 💳 **Comprehensive College Cards**: DTE institute code, official address, course-wise closing percentile and sanctioned intake, transit distances, and a direct link to the institute's DTE record and the round's cut-off PDF.
+* 💳 **Comprehensive College Cards**: Floating drawer displaying Tier badge, full Placements breakdown (average & highest package, top recruiter pills), Fee Structure (annual fee, 4-year total, regulatory status), per-branch CAP closing percentiles, transit commute distances, and direct links to official DTE records.
 * 🌗 **Adaptive Theming**: Powered by `next-themes` with custom CSS micro-animations and custom color palettes (Light / Dark / Blue).
 
 ---
@@ -160,6 +175,8 @@ college-compass/
 | MHT-CET CAP **Round I** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP1_MH_CutOff_V1.pdf) |
 | MHT-CET CAP **Round II** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP2_MH_CutOff.pdf) |
 | MHT-CET CAP **Round III** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP3_MH_CutOff.pdf) |
+| Placement statistics (average/highest packages, top recruiters) | Verified 2024–25 institutional NIRF disclosures & official training/placement cell reports |
+| College fee structures & regulatory status | Maharashtra [Fees Regulating Authority (FRA)](https://sssamiti.org/) approved matrices & Government gazettes |
 | Campus, hub, station and landmark coordinates | [OpenStreetMap](https://www.openstreetmap.org/copyright) (© OpenStreetMap contributors, ODbL) via Nominatim and Overpass |
 
 Snapshot retrieved for academic year **2026-27**.
