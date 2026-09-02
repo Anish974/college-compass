@@ -424,6 +424,8 @@ export default function Sidebar({
                 );
               })}
             </div>
+          </section>
+
           {/* College Tier filter (Tier 1, 2, 3) */}
           <section>
             <div className="flex items-center justify-between mb-2">

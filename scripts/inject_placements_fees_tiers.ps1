@@ -99,5 +99,7 @@ foreach ($cityKey in $data.cities.PSObject.Properties.Name) {
     }
 }
 
-$data | ConvertTo-Json -Depth 10 | Set-Content -Path $jsonPath -Encoding utf8
+$json = $data | ConvertTo-Json -Depth 10
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText($jsonPath, $json, $utf8NoBom)
 Write-Host "Successfully enriched $updatedCount colleges in $jsonPath"
