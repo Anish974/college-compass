@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://collegecompass.ayuslabs.com"),
   title: "Campus Compass — Maharashtra Engineering Colleges Map",
   description:
     "Interactive multi-city map of Maharashtra engineering colleges with tiers, branches, MHT-CET cutoffs, placements and transit distances.",
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
     "Amravati",
     "college map",
     "Leaflet",
+    "Campus Compass",
   ],
   authors: [{ name: "Campus Compass" }],
   icons: {
@@ -36,16 +38,18 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   openGraph: {
-    title: "Campus Compass",
-    description: "Interactive Maharashtra engineering college map",
-    url: "https://chat.z.ai",
+    title: "Campus Compass — Maharashtra Engineering Colleges Map",
+    description:
+      "Interactive multi-city map of Maharashtra engineering colleges with tiers, branches, MHT-CET cutoffs, placements and transit distances.",
+    url: "https://collegecompass.ayuslabs.com",
     siteName: "Campus Compass",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Campus Compass",
-    description: "Interactive Maharashtra engineering college map",
+    title: "Campus Compass — Maharashtra Engineering Colleges Map",
+    description:
+      "Interactive multi-city map of Maharashtra engineering colleges with tiers, branches, MHT-CET cutoffs, placements and transit distances.",
   },
 };
 

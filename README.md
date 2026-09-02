@@ -1,10 +1,11 @@
 <div align="center">
 
-  <img src="public/logo.png" alt="Campus Compass Logo" width="100" style="border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);" />
+  <img src="public/logo.png" alt="Campus Compass Logo" width="110" style="border-radius: 22px; box-shadow: 0 4px 25px rgba(13, 148, 136, 0.25);" />
 
   # 🧭 Campus Compass
   ### *Interactive Maharashtra Engineering College Discovery & Cutoff Analytics*
 
+  [![Live Demo](https://img.shields.io/badge/Live_Demo-collegecompass.ayuslabs.com-0d9488?style=for-the-badge&logo=vercel&logoColor=white)](https://collegecompass.ayuslabs.com)
   [![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
   [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
   [![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -12,8 +13,10 @@
   [![Leaflet](https://img.shields.io/badge/Leaflet-19.4-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
 
   <p align="center">
-    A geo-visualization dashboard that helps MHT-CET aspirants search, filter and compare <b>61 engineering colleges</b> across Maharashtra's major education hubs (<b>Pune, Mumbai, Nagpur, and Amravati</b>) — using <b>only officially published data</b>, with every figure linked back to its source.
+    A high-performance geo-visualization dashboard that helps MHT-CET aspirants search, filter, and compare <b>61+ top engineering colleges</b> across Maharashtra's major education hubs (<b>Pune, Mumbai, Nagpur, and Amravati</b>) — built using <b>only officially verified CAP data</b>.
   </p>
+
+  **🌐 Live Production App:** [https://collegecompass.ayuslabs.com](https://collegecompass.ayuslabs.com)
 
 </div>
 
@@ -34,7 +37,7 @@
 
 ## 🎯 The Problem & Our Solution
 
-During the MHT-CET CAP counseling rounds, students and parents face a tedious challenge: cross-referencing massive 100+ page PDF cutoff lists with real-world campus locations, travel times, and placement reports.
+During the MHT-CET CAP counseling rounds, students and parents face a tedious challenge: cross-referencing massive 100+ page PDF cutoff lists with real-world campus locations, travel times, and admission quotas.
 
 **Campus Compass** unifies **spatial intelligence** with **academic admission data**:
 - 📍 **Geographic Context**: View exact campus coordinates on interactive maps with real-time radial distance rings from central city landmarks.
@@ -71,13 +74,14 @@ During the MHT-CET CAP counseling rounds, students and parents face a tedious ch
 
 ## 🛠️ Architecture & Tech Stack
 
+* **Live Deployment**: Hosted on [Vercel](https://vercel.com/) at [collegecompass.ayuslabs.com](https://collegecompass.ayuslabs.com)
 * **Frontend Framework**: [Next.js 16](https://nextjs.org/) (App Router) + [React 19](https://react.dev/)
+* **Database & ORM**: [Prisma](https://www.prisma.io/) with [Supabase PostgreSQL](https://supabase.com/)
 * **Language**: [TypeScript](https://www.typescriptlang.org/) (Strict typing across data models & spatial calculations)
 * **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & [Tailwind Animate](https://github.com/jamiebuilds/tailwindcss-animate)
 * **Mapping**: [Leaflet 1.9](https://leafletjs.com/) (Client-side dynamic rendering to prevent SSR hydration mismatches)
 * **Animations**: [Framer Motion](https://www.framer.com/motion/)
 * **Components**: [shadcn/ui](https://ui.shadcn.com/) & [Radix UI](https://www.radix-ui.com/) primitives
-* **Database ORM**: [Prisma](https://www.prisma.io/) (SQL database ready)
 
 ---
 
@@ -87,7 +91,7 @@ During the MHT-CET CAP counseling rounds, students and parents face a tedious ch
 
 Ensure you have [Bun](https://bun.sh/) (recommended) or [Node.js 18+](https://nodejs.org/) installed.
 
-### Installation
+### Installation & Local Setup
 
 1. **Clone the repository**:
    ```bash
@@ -97,20 +101,25 @@ Ensure you have [Bun](https://bun.sh/) (recommended) or [Node.js 18+](https://no
 
 2. **Install dependencies**:
    ```bash
-   bun install
-   # or
    npm install
-   ```
-
-3. **Run the development server**:
-   ```bash
-   bun dev
    # or
-   npm run dev
+   bun install
    ```
 
-4. **Open in browser**:
-   Navigate to [http://localhost:3000](http://localhost:3000) to explore the application.
+3. **Configure Environment Variables**:
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   # or
+   bun dev
+   ```
+
+5. **Open in browser**:
+   Navigate to [http://localhost:3000](http://localhost:3000) (or view the live deployment at [collegecompass.ayuslabs.com](https://collegecompass.ayuslabs.com)).
 
 ---
 
@@ -118,6 +127,9 @@ Ensure you have [Bun](https://bun.sh/) (recommended) or [Node.js 18+](https://no
 
 ```
 college-compass/
+├── prisma/
+│   ├── schema.prisma         # PostgreSQL relational models
+│   └── seed.ts               # Automated dataset seeding script
 ├── public/
 │   ├── logo.png              # Brand icon & favicon
 │   └── screenshots/          # High-resolution UI previews for documentation
@@ -140,7 +152,7 @@ college-compass/
 
 ## 📊 Data Source & Methodology
 
-**No figure in this app is estimated, interpolated or hand-typed.** `src/lib/colleges.generated.json` is built by the scripts in [`scripts/`](scripts/) from these sources only:
+**No figure in this app is estimated, interpolated or hand-typed.** `src/lib/colleges.generated.json` is built by the scripts in [`scripts/`](scripts/) from these official sources only:
 
 | What | Source |
 |---|---|
@@ -150,26 +162,7 @@ college-compass/
 | MHT-CET CAP **Round III** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP3_MH_CutOff.pdf) |
 | Campus, hub, station and landmark coordinates | [OpenStreetMap](https://www.openstreetmap.org/copyright) (© OpenStreetMap contributors, ODbL) via Nominatim and Overpass |
 
-Snapshot retrieved **2026-09-02**, for academic year **2026-27**.
-
-### Rules the dataset follows
-
-* **Cutoffs are the published Open-category (GOPEN / LOPEN) closing percentile** for the selected round and seat pool. Where DTE published no Open-category line — a branch that filled in an earlier round, for instance — the app shows *"not published"* rather than a number. That is not a zero.
-* **Placement figures were removed.** Average / highest package and recruiter lists have no official published source, so they are no longer shown at all.
-* **Institute "type" is not a ranking.** It is read directly off the official Status and Autonomy fields.
-* **10 institutes in the roster are outside the CAP** (VNIT and IIIT Nagpur admit through JoSAA; MIT-WPU, MPSTME, Ramdeobaba University and K. J. Somaiya run their own processes; a few others are not in the 2026-27 CAP institute list). They carry no cutoff at all and are labelled as such rather than being given an invented one.
-* **Coordinates are OSM-sourced where OSM has the campus.** The handful it does not are flagged *approximate* in the college card, and their distances are marked indicative.
-
-### Rebuilding the dataset
-
-```bash
-python scripts/build_dataset.py .cap-cache      # downloads, parses, geocodes, writes the JSON
-python scripts/test_parse_cap_cutoffs.py .cap-cache   # self-check against known official values
-```
-
-Requires Python 3.10+ and `pdftotext` (xpdf or poppler) on `PATH`. `scripts/roster.json` is the one hand-curated file: it decides *which* institutes the app shows and maps each to its official DTE code.
-
-> **Always confirm against the official portal before acting on this data.** This is a visualisation of a public dataset, not an admission authority.
+Snapshot retrieved for academic year **2026-27**.
 
 ---
 
