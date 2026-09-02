@@ -1,0 +1,411 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-header-border: var(--header-border);
+  --color-header-foreground: var(--header-foreground);
+  --color-header: var(--header);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #0d9488;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #0d9488;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Light theme: White Sidebar & Header */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #0d9488;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #0d9488;
+
+  --header: #ffffff;
+  --header-foreground: #0f172a;
+  --header-border: #e2e8f0;
+}
+
+.dark {
+  --background: #090d16;
+  --foreground: #f1f5f9;
+  --card: #111625;
+  --card-foreground: #f1f5f9;
+  --popover: #111625;
+  --popover-foreground: #f1f5f9;
+  --primary: #0d9488;
+  --primary-foreground: #ffffff;
+  --secondary: #1e293b;
+  --secondary-foreground: #f1f5f9;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #f1f5f9;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #1b2234;
+  --input: #1b2234;
+  --ring: #0d9488;
+
+  --sidebar: #090d16;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #0d9488;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: #1b2234;
+  --sidebar-ring: #0d9488;
+
+  --header: #090d16;
+  --header-foreground: #f1f5f9;
+  --header-border: #1b2234;
+}
+
+.blue {
+  --background: #070d1e;
+  --foreground: #e0e7ff;
+  --card: #0d152a;
+  --card-foreground: #e0e7ff;
+  --popover: #0d152a;
+  --popover-foreground: #e0e7ff;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #172554;
+  --secondary-foreground: #e0e7ff;
+  --muted: #172554;
+  --muted-foreground: #94a3b8;
+  --accent: #172554;
+  --accent-foreground: #e0e7ff;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #1e294b;
+  --input: #1e294b;
+  --ring: #3b82f6;
+
+  --sidebar: #0d152a;
+  --sidebar-foreground: #e0e7ff;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e294b;
+  --sidebar-accent-foreground: #e0e7ff;
+  --sidebar-border: #1e294b;
+  --sidebar-ring: #3b82f6;
+
+  --header: #0d152a;
+  --header-foreground: #e0e7ff;
+  --header-border: #1e294b;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ============================================================
+   Leaflet map — base + custom marker styling
+   ============================================================ */
+.leaflet-container {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  background: #aadaff;
+}
+.dark .leaflet-container,
+.blue .leaflet-container {
+  background: #070d1e;
+}
+
+.leaflet-bar a {
+  border-radius: 0 !important;
+}
+/* Dark mode: zoom controls + attribution */
+.dark .leaflet-bar a,
+.blue .leaflet-bar a {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+.dark .leaflet-bar a:hover,
+.blue .leaflet-bar a:hover {
+  background-color: #334155;
+}
+.dark .leaflet-control-attribution,
+.blue .leaflet-control-attribution {
+  background: rgba(15, 23, 42, 0.7) !important;
+  color: #94a3b8 !important;
+}
+.dark .leaflet-control-attribution a,
+.blue .leaflet-control-attribution a {
+  color: #5eead4 !important;
+}
+
+/* Dark mode: popups */
+.dark .leaflet-popup-content-wrapper,
+.blue .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip,
+.blue .leaflet-popup-tip {
+  background: #1e293b;
+  color: #e2e8f0;
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.6);
+}
+.dark .leaflet-popup-content,
+.blue .leaflet-popup-content {
+  color: #e2e8f0;
+}
+
+/* Neon hub glow in dark mode */
+.dark .chm-hub-core,
+.blue .chm-hub-core {
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.25), 0 6px 18px -3px rgba(20, 184, 166, 0.8);
+}
+.dark .chm-pulse,
+.blue .chm-pulse {
+  border-color: #2dd4bf;
+}
+/* College pin neon ring in dark mode */
+.dark .chm-pin,
+.blue .chm-pin {
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.8), 0 4px 12px -2px rgba(0, 0, 0, 0.6);
+}
+
+/* Pin markers built from divIcon HTML */
+.chm-pin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  color: #fff;
+}
+.chm-pin:hover {
+  transform: scale(1.18) translateY(-2px);
+  box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+.chm-pin svg {
+  width: 58%;
+  height: 58%;
+}
+
+/* College pins get a subtle directional stem */
+.chm-pin.chm-college::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* ---- Central Hub: pulsing ring effect ---- */
+.chm-hub-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chm-hub-core {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+  border: 3px solid #fff;
+  box-shadow: 0 6px 16px -3px rgba(13, 148, 136, 0.7);
+  color: #fff;
+}
+.chm-hub-core svg {
+  width: 18px;
+  height: 18px;
+}
+.chm-pulse {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin-top: -17px;
+  margin-left: -17px;
+  border-radius: 9999px;
+  border: 2px solid #14b8a6;
+  opacity: 0.7;
+  animation: chm-pulse 2.4s ease-out infinite;
+}
+.chm-pulse.delay {
+  animation-delay: 1.2s;
+}
+@keyframes chm-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.75;
+  }
+  80% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+
+/* Static influence radius circle (rendered by L.circle) */
+.chm-hub-radius {
+  animation: chm-radius-breathe 5s ease-in-out infinite;
+}
+@keyframes chm-radius-breathe {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.2; }
+}
+
+/* Thread lines */
+.chm-thread {
+  stroke-linecap: round;
+  transition: stroke-width 0.2s ease, opacity 0.2s ease;
+}
+.chm-thread-hover {
+  stroke-width: 4px !important;
+  opacity: 1 !important;
+}
+
+/* Hover tooltip pinned to a thread */
+.chm-thread-tooltip {
+  background: rgba(15, 23, 42, 0.92) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
+  box-shadow: 0 6px 16px -4px rgba(0, 0, 0, 0.4);
+}
+.chm-thread-tooltip::before {
+  border-top-color: rgba(15, 23, 42, 0.92) !important;
+}
+
+/* Popups */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.35);
+}
+.leaflet-popup-content {
+  margin: 12px 14px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Custom scrollbar for long filter / list panels */
+.chm-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.chm-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.chm-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chm-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.chm-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted-foreground);
+  background-clip: content-box;
+}
+
+/* Subtle entrance animation for the info card */
+@keyframes chm-card-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.chm-card-in {
+  animation: chm-card-in 0.25s ease-out;
+}
+
+/* Extra pitch-black styling filter for fallback CartoDB Dark Matter tiles */
+.chm-dark-tiles {
+  filter: brightness(0.4) contrast(1.35) saturate(0.65) !important;
+}
+
+/* Extra blue styling filter for fallback navigation-blue tiles */
+.chm-blue-tiles {
+  filter: hue-rotate(185deg) saturate(1.4) brightness(0.6) contrast(1.15) !important;
+}
