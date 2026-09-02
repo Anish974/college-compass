@@ -12,7 +12,7 @@
   [![Leaflet](https://img.shields.io/badge/Leaflet-19.4-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
 
   <p align="center">
-    A high-performance geo-visualization dashboard designed to help engineering aspirants search, filter, and analyze <b>56+ top engineering colleges</b> across Maharashtra's major education hubs (<b>Pune, Mumbai, Nagpur, and Amravati</b>).
+    A geo-visualization dashboard that helps MHT-CET aspirants search, filter and compare <b>61 engineering colleges</b> across Maharashtra's major education hubs (<b>Pune, Mumbai, Nagpur, and Amravati</b>) — using <b>only officially published data</b>, with every figure linked back to its source.
   </p>
 
 </div>
@@ -24,7 +24,7 @@
 ### 🗺️ Dashboard Overview (Live Map & Multi-Criteria Filtering)
 ![Campus Compass Overview](public/screenshots/overview.png)
 
-### 💳 Detailed College Profile Drawer (Cutoffs, Placements & Transit Data)
+### 💳 Detailed College Profile Drawer (CAP Cutoffs, Intake & Transit Data)
 ![College Details Drawer](public/screenshots/college-details.png)
 
 ### 🌙 Sleek Dark Mode (CartoDB Dark Matter with Neon Hub Glows)
@@ -38,8 +38,9 @@ During the MHT-CET CAP counseling rounds, students and parents face a tedious ch
 
 **Campus Compass** unifies **spatial intelligence** with **academic admission data**:
 - 📍 **Geographic Context**: View exact campus coordinates on interactive maps with real-time radial distance rings from central city landmarks.
-- 🎯 **Percentile Eligibility Engine**: Enter your MHT-CET score and preferred branch (CSE, IT, E&TC, Mechanical, Civil) to instantly visualize colleges where you qualify based on official 2025 CAP Round-1 cutoffs.
-- 💼 **Placement & Tier Analytics**: Compare average & highest salary packages (LPA), top recruiters, and institute tiers (Tier 1 / Tier 2 / Tier 3).
+- 🎯 **Percentile Eligibility Engine**: Enter your MHT-CET percentile and preferred branch to see where you qualify, against the official CAP **Round I / II / III** closing percentiles for A.Y. 2026-27 — switchable per round.
+- 🏛️ **Seat-Type Aware**: Toggle between **Home University**, **Other than Home University** and **State Level** seat pools, exactly as DTE publishes them.
+- 📋 **Official Institute Record**: DTE institute code, address, status (Government / Un-Aided), autonomy, minority status, affiliating university and course-wise sanctioned intake — straight off the CAP portal.
 - 🚆 **Transit & Commute Insights**: Real-time calculated distances to nearest railway stations, bus stands, and key city hubs.
 
 ---
@@ -58,11 +59,12 @@ During the MHT-CET CAP counseling rounds, students and parents face a tedious ch
   * *Displays dashed connecting threads from the hub to colleges with real-time hover distance calculations.*
 * 🔍 **Cross-City Global Search**: Search instantly by college name or official DTE (Directorate of Technical Education) institute codes. Selecting a result automatically switches the city view and highlights the campus.
 * ⚡ **Advanced Multi-Criteria Filtering**:
-  * **Branch Cutoffs & Percentile Eligibility**: Filter across major branches to show colleges where closing cutoff $\le$ your percentile.
-  * **Placements & Packages**: Filter by minimum average placement package (LPA).
+  * **Branch Cutoffs & Percentile Eligibility**: Filter across major branches to show colleges where the closing cutoff $\le$ your percentile.
+  * **CAP Round & Seat Type**: Every cutoff in the app re-reads from the round and seat pool you pick.
+  * **Institute Type**: Government / University, Autonomous (Un-Aided), Affiliated (Un-Aided), or outside the CAP — derived from the official Status and Autonomy fields, not a ranking.
   * **Distance**: Filter colleges within a 1km to 50km+ radius from the city's central hub.
   * **Layer Toggles**: Show/hide connecting threads, transit points (railways, bus stands), and local landmarks.
-* 💳 **Comprehensive College Cards**: Displays DTE code, established year, complete 5-branch cutoff grid, average & highest packages, top recruiters, and transit distances.
+* 💳 **Comprehensive College Cards**: DTE institute code, official address, course-wise closing percentile and sanctioned intake, transit distances, and a direct link to the institute's DTE record and the round's cut-off PDF.
 * 🌗 **Adaptive Theming**: Powered by `next-themes` with custom CSS micro-animations and custom color palettes (Light / Dark / Blue).
 
 ---
@@ -127,7 +129,8 @@ college-compass/
 │   │   ├── sidebar.tsx       # Multi-criteria filtering controls & search
 │   │   └── theme-controller.tsx # Theme switcher (Light / Dark / Blue)
 │   └── lib/
-│       ├── college-data.ts   # Curated dataset (56 colleges, cutoffs, coords)
+│       ├── college-data.ts   # Typed accessors over the generated dataset
+│       ├── colleges.generated.json  # Built by /scripts — do not hand-edit
 │       └── marker-icons.ts   # Custom SVG map pin generators
 ├── tailwind.config.ts        # Tailwind CSS v4 styling tokens
 └── package.json              # Project metadata and dependencies
@@ -137,8 +140,36 @@ college-compass/
 
 ## 📊 Data Source & Methodology
 
-All college geographic coordinates (latitude/longitude), DTE institute codes, MHT-CET 2025 CAP Round-1 closing percentiles, and placement statistics (2024–2025) are compiled from official Maharashtra State CET Cell CAP publications and verified institutional disclosures.  
-*(Note: VNIT Nagpur admissions are conducted via JEE Main / JoSAA / CSAB and are cataloged accordingly in the interface.)*
+**No figure in this app is estimated, interpolated or hand-typed.** `src/lib/colleges.generated.json` is built by the scripts in [`scripts/`](scripts/) from these sources only:
+
+| What | Source |
+|---|---|
+| Institute name, DTE code, address, status, autonomy, minority status, affiliating university, course-wise sanctioned intake | [State CET Cell CAP portal institute records](https://fe2026.mahacet.org/StaticPages/frmInstituteList.aspx?did=1884) |
+| MHT-CET CAP **Round I** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP1_MH_CutOff_V1.pdf) |
+| MHT-CET CAP **Round II** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP2_MH_CutOff.pdf) |
+| MHT-CET CAP **Round III** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP3_MH_CutOff.pdf) |
+| Campus, hub, station and landmark coordinates | [OpenStreetMap](https://www.openstreetmap.org/copyright) (© OpenStreetMap contributors, ODbL) via Nominatim and Overpass |
+
+Snapshot retrieved **2026-09-02**, for academic year **2026-27**.
+
+### Rules the dataset follows
+
+* **Cutoffs are the published Open-category (GOPEN / LOPEN) closing percentile** for the selected round and seat pool. Where DTE published no Open-category line — a branch that filled in an earlier round, for instance — the app shows *"not published"* rather than a number. That is not a zero.
+* **Placement figures were removed.** Average / highest package and recruiter lists have no official published source, so they are no longer shown at all.
+* **Institute "type" is not a ranking.** It is read directly off the official Status and Autonomy fields.
+* **10 institutes in the roster are outside the CAP** (VNIT and IIIT Nagpur admit through JoSAA; MIT-WPU, MPSTME, Ramdeobaba University and K. J. Somaiya run their own processes; a few others are not in the 2026-27 CAP institute list). They carry no cutoff at all and are labelled as such rather than being given an invented one.
+* **Coordinates are OSM-sourced where OSM has the campus.** The handful it does not are flagged *approximate* in the college card, and their distances are marked indicative.
+
+### Rebuilding the dataset
+
+```bash
+python scripts/build_dataset.py .cap-cache      # downloads, parses, geocodes, writes the JSON
+python scripts/test_parse_cap_cutoffs.py .cap-cache   # self-check against known official values
+```
+
+Requires Python 3.10+ and `pdftotext` (xpdf or poppler) on `PATH`. `scripts/roster.json` is the one hand-curated file: it decides *which* institutes the app shows and maps each to its official DTE code.
+
+> **Always confirm against the official portal before acting on this data.** This is a visualisation of a public dataset, not an admission authority.
 
 ---
 

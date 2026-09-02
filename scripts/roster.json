@@ -1,0 +1,493 @@
+{
+ "note": "Curated roster for Campus Compass. `code` is the official DTE / State CET Cell institute code used by the CAP portal (https://fe2026.mahacet.org). `capParticipant: false` marks an institute that is NOT in the official CAP 2026-27 institute list, so no official CAP cutoff exists for it and none is shown.",
+ "cities": {
+  "pune": {
+   "name": "Pune",
+   "hubName": "Shaniwar Wada",
+   "hubQueries": [
+    "Shaniwar Wada, Pune, Maharashtra"
+   ]
+  },
+  "mumbai": {
+   "name": "Mumbai",
+   "hubName": "Dadar",
+   "hubQueries": [
+    "Dadar, Mumbai, Maharashtra"
+   ]
+  },
+  "nagpur": {
+   "name": "Nagpur",
+   "hubName": "Sitabuldi",
+   "hubQueries": [
+    "Sitabuldi, Nagpur, Maharashtra"
+   ]
+  },
+  "amravati": {
+   "name": "Amravati",
+   "hubName": "Rajkamal Square",
+   "hubQueries": [
+    "Rajkamal Chowk Amravati",
+    "Rajkamal Square, Amravati, Maharashtra"
+   ]
+  }
+ },
+ "colleges": [
+  {
+   "id": "pune-coep",
+   "city": "pune",
+   "short": "COEP Tech",
+   "code": "16006",
+   "website": "https://www.coeptech.ac.in/"
+  },
+  {
+   "id": "pune-pict",
+   "city": "pune",
+   "short": "PICT",
+   "code": "06271",
+   "website": "https://pict.edu/"
+  },
+  {
+   "id": "pune-cummins",
+   "city": "pune",
+   "short": "Cummins Pune",
+   "code": "06276",
+   "website": "https://cumminscollege.org/"
+  },
+  {
+   "id": "pune-vit",
+   "city": "pune",
+   "short": "VIT Pune",
+   "code": "06273",
+   "website": "https://www.vit.edu/"
+  },
+  {
+   "id": "pune-pccoe",
+   "city": "pune",
+   "short": "PCCOE",
+   "code": "06175",
+   "website": "https://www.pccoepune.com/"
+  },
+  {
+   "id": "pune-aissms",
+   "city": "pune",
+   "short": "AISSMS COE",
+   "code": "06278",
+   "website": "https://aissmscoe.com/"
+  },
+  {
+   "id": "pune-dypatil",
+   "city": "pune",
+   "short": "DYPCOE Akurdi",
+   "code": "06272",
+   "website": "https://www.dypcoeakurdi.ac.in/"
+  },
+  {
+   "id": "pune-mmcoe",
+   "city": "pune",
+   "short": "MMCOE",
+   "code": "06156",
+   "website": "https://mmcoe.edu.in/"
+  },
+  {
+   "id": "pune-jscoe",
+   "city": "pune",
+   "short": "JSPM JSCOE",
+   "code": "06145",
+   "website": "https://www.jspm.edu.in/"
+  },
+  {
+   "id": "pune-scoe",
+   "city": "pune",
+   "short": "SCOE Vadgaon",
+   "code": "06177",
+   "website": "https://sinhgad.edu/"
+  },
+  {
+   "id": "pune-zcoer",
+   "city": "pune",
+   "short": "ZCOER",
+   "code": "06298",
+   "website": "https://zealeducation.com/"
+  },
+  {
+   "id": "pune-trinity",
+   "city": "pune",
+   "short": "TCOER Pisoli",
+   "code": "06184",
+   "website": "http://www.trinity-autonomous.in/"
+  },
+  {
+   "id": "pune-apcoe",
+   "city": "pune",
+   "short": "APCOER",
+   "code": "06794",
+   "website": "https://abmspcoerpune.org/"
+  },
+  {
+   "id": "pune-ghrcem",
+   "city": "pune",
+   "short": "GHRCEM Pune",
+   "code": "06155",
+   "website": "https://ghrcem.raisoni.net/"
+  },
+  {
+   "id": "pune-nbn",
+   "city": "pune",
+   "short": "NBN Sinhgad",
+   "code": "06772",
+   "website": "https://sinhgad.edu/"
+  },
+  {
+   "id": "mumbai-vjti",
+   "city": "mumbai",
+   "short": "VJTI",
+   "code": "03012",
+   "website": "https://vjti.ac.in/"
+  },
+  {
+   "id": "mumbai-spit",
+   "city": "mumbai",
+   "short": "SPIT",
+   "code": "03215",
+   "website": "https://www.spit.ac.in/"
+  },
+  {
+   "id": "mumbai-ict",
+   "city": "mumbai",
+   "short": "ICT Mumbai",
+   "code": "03036",
+   "website": "https://www.ictmumbai.edu.in/"
+  },
+  {
+   "id": "mumbai-djsanghvi",
+   "city": "mumbai",
+   "short": "DJ Sanghvi",
+   "code": "03199",
+   "website": "https://www.djsce.ac.in/"
+  },
+  {
+   "id": "mumbai-tsec",
+   "city": "mumbai",
+   "short": "TSEC",
+   "code": "03182",
+   "website": "https://tsec.edu/"
+  },
+  {
+   "id": "mumbai-crce",
+   "city": "mumbai",
+   "short": "Fr. CRCE",
+   "code": "03184",
+   "website": "https://frcrce.ac.in/"
+  },
+  {
+   "id": "mumbai-vidyalankar",
+   "city": "mumbai",
+   "short": "VIT Mumbai",
+   "code": "03139",
+   "website": "https://vit.edu.in/"
+  },
+  {
+   "id": "mumbai-atharva",
+   "city": "mumbai",
+   "short": "Atharva COE",
+   "code": "03203",
+   "website": "https://atharvacoe.ac.in/"
+  },
+  {
+   "id": "mumbai-sies",
+   "city": "mumbai",
+   "short": "SIES GST",
+   "code": "03211",
+   "website": "https://siesgst.edu.in/"
+  },
+  {
+   "id": "mumbai-terna",
+   "city": "mumbai",
+   "short": "Terna Nerul",
+   "code": "03190",
+   "website": "https://ternaengg.ac.in/"
+  },
+  {
+   "id": "mumbai-rgit",
+   "city": "mumbai",
+   "short": "RGIT Andheri",
+   "code": "03135",
+   "website": "https://rgit.ac.in/"
+  },
+  {
+   "id": "mumbai-sfit",
+   "city": "mumbai",
+   "short": "SFIT",
+   "code": "03204",
+   "website": "https://www.sfit.ac.in/"
+  },
+  {
+   "id": "mumbai-donbosco",
+   "city": "mumbai",
+   "short": "DBIT",
+   "code": "03208",
+   "website": "https://www.dbit.in/"
+  },
+  {
+   "id": "mumbai-pillai",
+   "city": "mumbai",
+   "short": "PHCET",
+   "code": "03223",
+   "website": "https://phcet.ac.in/"
+  },
+  {
+   "id": "nagpur-ycce",
+   "city": "nagpur",
+   "short": "YCCE",
+   "code": "04167",
+   "website": "https://ycce.edu/"
+  },
+  {
+   "id": "nagpur-ghrce",
+   "city": "nagpur",
+   "short": "GHRCE",
+   "code": "04142",
+   "website": "https://ghrce.raisoni.net/"
+  },
+  {
+   "id": "nagpur-gcoen",
+   "city": "nagpur",
+   "short": "GCOE Nagpur",
+   "code": "04025",
+   "website": "https://www.gcoen.ac.in/"
+  },
+  {
+   "id": "nagpur-anjuman",
+   "city": "nagpur",
+   "short": "ACET",
+   "code": "04172",
+   "website": "https://anjumanengg.edu.in/"
+  },
+  {
+   "id": "nagpur-kdk",
+   "city": "nagpur",
+   "short": "KDKCE",
+   "code": "04147",
+   "website": "https://kdkce.edu.in/"
+  },
+  {
+   "id": "nagpur-srpce",
+   "city": "nagpur",
+   "short": "SRPCE",
+   "code": "04133",
+   "website": "https://srpce.ac.in/"
+  },
+  {
+   "id": "nagpur-tgpcet",
+   "city": "nagpur",
+   "short": "TGPCET",
+   "code": "04151",
+   "website": "https://tgpcet.edu.in/"
+  },
+  {
+   "id": "nagpur-jdcoem",
+   "city": "nagpur",
+   "short": "JDCOEM",
+   "code": "04138",
+   "website": "https://jdcoem.ac.in/"
+  },
+  {
+   "id": "nagpur-gniet",
+   "city": "nagpur",
+   "short": "GNIET",
+   "code": "04134",
+   "website": "https://gnietedu.in/"
+  },
+  {
+   "id": "nagpur-nit",
+   "city": "nagpur",
+   "short": "NIT Nagpur",
+   "code": "04144",
+   "website": "https://nit.edu.in/"
+  },
+  {
+   "id": "nagpur-scet",
+   "city": "nagpur",
+   "short": "SCET",
+   "code": "04613",
+   "website": "https://scetngp.com/"
+  },
+  {
+   "id": "nagpur-svpcet",
+   "city": "nagpur",
+   "short": "SVPCET",
+   "code": "04174",
+   "website": "https://www.stvincentngp.edu.in/"
+  },
+  {
+   "id": "nagpur-sbjit",
+   "city": "nagpur",
+   "short": "SBJITMR",
+   "code": "04137",
+   "website": "https://www.sbjit.edu.in/"
+  },
+  {
+   "id": "nagpur-pbcoe",
+   "city": "nagpur",
+   "short": "PBCOE",
+   "code": "04177",
+   "website": "https://pbcoe.edu.in/"
+  },
+  {
+   "id": "nagpur-wcem",
+   "city": "nagpur",
+   "short": "WCEM",
+   "code": "04145",
+   "website": "https://www.wcem.in/"
+  },
+  {
+   "id": "amravati-gcoea",
+   "city": "amravati",
+   "short": "GCOEA",
+   "code": "01002",
+   "website": "https://gcoea.ac.in/"
+  },
+  {
+   "id": "amravati-prmitr",
+   "city": "amravati",
+   "short": "PRMITR",
+   "code": "01105",
+   "website": "https://mitra.ac.in/"
+  },
+  {
+   "id": "amravati-prpote",
+   "city": "amravati",
+   "short": "PRPCEM",
+   "code": "01107",
+   "website": "https://prpotepatilengg.ac.in/"
+  },
+  {
+   "id": "amravati-sipna",
+   "city": "amravati",
+   "short": "Sipna COET",
+   "code": "01114",
+   "website": "https://sipnaengg.ac.in/"
+  },
+  {
+   "id": "amravati-mngm",
+   "city": "amravati",
+   "short": "PRMCEAM",
+   "code": "01128",
+   "website": "https://prmceam.ac.in/"
+  },
+  {
+   "id": "amravati-hvpm",
+   "city": "amravati",
+   "short": "HVPM COET",
+   "code": "01121",
+   "website": "https://hvpmcoet.in/"
+  },
+  {
+   "id": "amravati-drgitr",
+   "city": "amravati",
+   "short": "DRGITR",
+   "code": "01123",
+   "website": "https://drgitr.ac.in/"
+  },
+  {
+   "id": "pune-mitwpu",
+   "city": "pune",
+   "short": "MIT-WPU",
+   "capParticipant": false,
+   "name": "MIT World Peace University, Pune",
+   "website": "https://mitwpu.edu.in/",
+   "geoQuery": "MIT World Peace University, Kothrud, Pune",
+   "admissionNote": "Private university — admits through MIT-WPU CET / JEE (Main), not the DTE CAP."
+  },
+  {
+   "id": "pune-viit",
+   "city": "pune",
+   "short": "VIIT Pune",
+   "capParticipant": false,
+   "name": "Vishwakarma Institute of Information Technology, Pune",
+   "website": "https://www.viit.ac.in/",
+   "geoQuery": "Vishwakarma Institute of Information Technology, Kondhwa, Pune",
+   "admissionNote": "Not listed in the official DTE CAP 2026-27 institute list — confirm the current admission route with the institute."
+  },
+  {
+   "id": "pune-alard",
+   "city": "pune",
+   "short": "Alard COE",
+   "capParticipant": false,
+   "name": "Alard College of Engineering & Management, Pune",
+   "website": "https://alardinstitutes.com/",
+   "geoQuery": "Alard College of Engineering and Management, Marunji, Pune",
+   "admissionNote": "Not listed in the official DTE CAP 2026-27 institute list — confirm the current admission route with the institute."
+  },
+  {
+   "id": "mumbai-kjsomaiya",
+   "city": "mumbai",
+   "short": "KJSCE",
+   "capParticipant": false,
+   "name": "K. J. Somaiya School of Engineering, Somaiya Vidyavihar University",
+   "website": "https://kjsce.somaiya.edu/",
+   "geoQuery": "K J Somaiya College of Engineering, Vidyavihar, Mumbai",
+   "admissionNote": "A constituent school of Somaiya Vidyavihar University — admits through the university's own process, not the DTE CAP."
+  },
+  {
+   "id": "mumbai-mpstme",
+   "city": "mumbai",
+   "short": "MPSTME",
+   "capParticipant": false,
+   "name": "Mukesh Patel School of Technology Management & Engineering, NMIMS",
+   "website": "https://engineering.nmims.edu/",
+   "geoQuery": "Mukesh Patel School of Technology Management and Engineering, Vile Parle, Mumbai",
+   "admissionNote": "Deemed-to-be university — admits through NMIMS NPAT, not the DTE CAP."
+  },
+  {
+   "id": "nagpur-vnit",
+   "city": "nagpur",
+   "short": "VNIT",
+   "capParticipant": false,
+   "name": "Visvesvaraya National Institute of Technology, Nagpur",
+   "website": "https://vnit.ac.in/",
+   "geoQuery": "Visvesvaraya National Institute of Technology, Nagpur",
+   "admissionNote": "Institute of National Importance — admits through JEE (Main) / JoSAA, not the DTE CAP."
+  },
+  {
+   "id": "nagpur-iiit",
+   "city": "nagpur",
+   "short": "IIIT Nagpur",
+   "capParticipant": false,
+   "name": "Indian Institute of Information Technology, Nagpur",
+   "website": "https://www.iiitn.ac.in/",
+   "geoQuery": "Indian Institute of Information Technology Nagpur, Waranga, Nagpur",
+   "admissionNote": "Institute of National Importance — admits through JEE (Main) / JoSAA, not the DTE CAP."
+  },
+  {
+   "id": "nagpur-rcoem",
+   "city": "nagpur",
+   "short": "RBU (RCOEM)",
+   "capParticipant": false,
+   "name": "Ramdeobaba University (formerly Shri Ramdeobaba College of Engineering and Management)",
+   "website": "https://www.rknec.edu/",
+   "geoQuery": "Shri Ramdeobaba College of Engineering and Management, Ramdeo Tekdi, Nagpur",
+   "admissionNote": "Now a state private university — admits through its own process, not the DTE CAP."
+  },
+  {
+   "id": "nagpur-pce",
+   "city": "nagpur",
+   "short": "PCE Nagpur",
+   "capParticipant": false,
+   "name": "Priyadarshini College of Engineering, Nagpur",
+   "website": "https://www.pcenagpur.edu.in/",
+   "geoQuery": "Priyadarshini College of Engineering, Hingna Road, Nagpur",
+   "admissionNote": "Not listed in the official DTE CAP 2026-27 institute list — confirm the current admission route with the institute."
+  },
+  {
+   "id": "nagpur-pjlce",
+   "city": "nagpur",
+   "short": "PJLCE",
+   "capParticipant": false,
+   "name": "Priyadarshini J. L. College of Engineering, Nagpur",
+   "website": "http://pjlce.edu.in/",
+   "geoQuery": "Priyadarshini J L College of Engineering, Hingna Road, Nagpur",
+   "admissionNote": "Not listed in the official DTE CAP 2026-27 institute list — confirm the current admission route with the institute."
+  }
+ ]
+}

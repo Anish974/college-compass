@@ -14,7 +14,7 @@ import {
   Building2,
   TramFront,
   Compass,
-  Award,
+  Layers,
   GitBranch,
   Target,
 } from "lucide-react";
@@ -35,16 +35,24 @@ import { cn } from "@/lib/utils";
 import {
   CITIES,
   CITY_LIST,
-  TIER_META,
+  TYPE_META,
+  INSTITUTE_TYPES,
   BRANCHES,
   BRANCH_LABELS,
-  haversineKm,
-  branchEligible,
+  CAP_ROUNDS,
+  CAP_ROUND_LABELS,
+  SEAT_TYPES,
+  SEAT_TYPE_LABELS,
+  DEFAULT_FILTERS,
+  PROVENANCE,
+  hubDistanceKm,
+  instituteType,
+  visibleColleges as filterVisible,
   type CityId,
-  type Tier,
+  type Filters,
+  type InstituteType,
   type BranchFilter,
 } from "@/lib/college-data";
-import type { Filters } from "./map-view";
 
 interface SidebarProps {
   cityId: CityId;
@@ -60,23 +68,6 @@ interface SidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-const TIER_ITEMS: { tier: Tier; desc: string }[] = [
-  { tier: 1, desc: "Institutes of national importance" },
-  { tier: 2, desc: "Top private & autonomous colleges" },
-  { tier: 3, desc: "Affiliated & regional colleges" },
-];
-
-const DEFAULT_FILTERS: Filters = {
-  tiers: [1, 2, 3],
-  maxDistance: 50,
-  minAvgPackage: 0,
-  branch: "All",
-  percentile: 99.9,
-  showTransit: true,
-  showLandmarks: true,
-  showThreads: true,
-};
 
 export default function Sidebar({
   cityId,
@@ -94,12 +85,11 @@ export default function Sidebar({
 }: SidebarProps) {
   const city = CITIES[cityId];
 
-  const toggleTier = (tier: number) => {
-    const has = filters.tiers.includes(tier);
-    const next = has
-      ? filters.tiers.filter((t) => t !== tier)
-      : Array.from(new Set([...filters.tiers, tier])).sort();
-    onChange({ ...filters, tiers: next.length ? next : [tier] });
+  const toggleType = (type: InstituteType) => {
+    const next = filters.types.includes(type)
+      ? filters.types.filter((t) => t !== type)
+      : [...filters.types, type];
+    onChange({ ...filters, types: next.length ? next : [type] });
   };
 
   const toggle = (key: keyof Filters, checked: boolean) =>
@@ -107,23 +97,7 @@ export default function Sidebar({
 
   const reset = () => onChange({ ...DEFAULT_FILTERS });
 
-  const visibleColleges = useMemo(
-    () =>
-      city.colleges
-        .filter(
-          (c) =>
-            filters.tiers.includes(c.tier) &&
-            haversineKm(city.hub.position, c.position) <= filters.maxDistance &&
-            c.placement.avgPackage >= filters.minAvgPackage &&
-            branchEligible(c, filters.branch, filters.percentile)
-        )
-        .sort(
-          (a, b) =>
-            haversineKm(city.hub.position, a.position) -
-            haversineKm(city.hub.position, b.position)
-        ),
-    [city, filters]
-  );
+  const shownColleges = useMemo(() => filterVisible(city, filters), [city, filters]);
 
   // Global search across ALL cities by name or institute code.
   const searchResults = useMemo(() => {
@@ -136,14 +110,14 @@ export default function Sidebar({
       name: string;
       shortName: string;
       code: string;
-      tier: Tier;
+      type: InstituteType;
     }[] = [];
     for (const c of CITY_LIST) {
       for (const col of c.colleges) {
         if (
           col.name.toLowerCase().includes(q) ||
           col.shortName.toLowerCase().includes(q) ||
-          col.instituteCode.toLowerCase().includes(q)
+          (col.instituteCode ?? "").includes(q)
         ) {
           out.push({
             cityId: c.id,
@@ -151,8 +125,8 @@ export default function Sidebar({
             collegeId: col.id,
             name: col.name,
             shortName: col.shortName,
-            code: col.instituteCode,
-            tier: col.tier,
+            code: col.instituteCode ?? "—",
+            type: instituteType(col),
           });
         }
       }
@@ -266,7 +240,7 @@ export default function Sidebar({
                   </div>
                 )}
                 {searchResults.map((r) => {
-                  const meta = TIER_META[r.tier];
+                  const meta = TYPE_META[r.type];
                   const crossCity = r.cityId !== cityId;
                   return (
                     <button
@@ -314,25 +288,81 @@ export default function Sidebar({
             )}
           </section>
 
-          {/* Tier badges */}
+          {/* CAP round + seat type — the two switches that change every cutoff */}
+          <section>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-sidebar-foreground/75 mb-2 flex items-center gap-1">
+              <Layers className="h-3.5 w-3.5" /> CAP Round
+            </h3>
+            <div className="grid grid-cols-3 gap-1.5">
+              {CAP_ROUNDS.map((r) => (
+                <button
+                  key={r}
+                  onClick={() => onChange({ ...filters, round: r })}
+                  aria-pressed={filters.round === r}
+                  className={cn(
+                    "rounded-lg border px-2 py-1.5 text-[11px] font-semibold transition-all",
+                    filters.round === r
+                      ? "border-teal-600 bg-teal-600 text-white shadow-sm"
+                      : "border-sidebar-border bg-sidebar text-sidebar-foreground hover:border-muted-foreground"
+                  )}
+                  suppressHydrationWarning
+                >
+                  {CAP_ROUND_LABELS[r]}
+                </button>
+              ))}
+            </div>
+            <p className="mt-1.5 text-[10px] text-sidebar-foreground/60 leading-snug">
+              Official MHT-CET CAP {PROVENANCE.capYear} closing percentiles,
+              published by the State CET Cell.
+            </p>
+
+            <h3 className="mt-3 text-xs font-semibold uppercase tracking-wide text-sidebar-foreground/75 mb-2">
+              Seat Type
+            </h3>
+            <div className="grid grid-cols-3 gap-1.5">
+              {SEAT_TYPES.map((st) => (
+                <button
+                  key={st}
+                  onClick={() => onChange({ ...filters, seatType: st })}
+                  aria-pressed={filters.seatType === st}
+                  title={SEAT_TYPE_LABELS[st]}
+                  className={cn(
+                    "rounded-lg border px-2 py-1.5 text-[10px] font-semibold leading-tight transition-all",
+                    filters.seatType === st
+                      ? "border-teal-600 bg-teal-600/15 text-teal-700 dark:text-teal-300"
+                      : "border-sidebar-border bg-sidebar text-sidebar-foreground hover:border-muted-foreground"
+                  )}
+                  suppressHydrationWarning
+                >
+                  {SEAT_TYPE_LABELS[st]}
+                </button>
+              ))}
+            </div>
+            <p className="mt-1.5 text-[10px] text-sidebar-foreground/60 leading-snug">
+              Home University = your own university region. Autonomous institutes
+              publish a single State Level line.
+            </p>
+          </section>
+
+          {/* Institute type — taken from the official Status / Autonomy fields */}
           <section>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-xs font-semibold uppercase tracking-wide text-sidebar-foreground/75">
-                College Tier
+                Institute Type
               </h3>
               <Badge variant="secondary" className="text-[10px] h-5 bg-muted text-sidebar-foreground">
-                {filters.tiers.length}/3
+                {filters.types.length}/{INSTITUTE_TYPES.length}
               </Badge>
             </div>
             <div className="flex flex-wrap gap-2">
-              {TIER_ITEMS.map(({ tier, desc }) => {
-                const meta = TIER_META[tier];
-                const active = filters.tiers.includes(tier);
+              {INSTITUTE_TYPES.map((type) => {
+                const meta = TYPE_META[type];
+                const active = filters.types.includes(type);
                 return (
                   <button
-                    key={tier}
-                    onClick={() => toggleTier(tier)}
-                    title={desc}
+                    key={type}
+                    onClick={() => toggleType(type)}
+                    title={meta.desc}
                     aria-pressed={active}
                     className={cn(
                       "group flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all",
@@ -416,38 +446,11 @@ export default function Sidebar({
               <span>99.9</span>
             </div>
             <p className="mt-1 text-[10px] text-sidebar-foreground/50 leading-snug">
-              Shows colleges with closing cutoff ≤ your percentile (i.e. colleges
-              you&apos;re eligible for).
+              Shows colleges whose {CAP_ROUND_LABELS[filters.round]} Open-category
+              closing percentile ({SEAT_TYPE_LABELS[filters.seatType]}) is ≤ yours.
+              Institutes outside the CAP have no official cutoff and are always
+              shown.
             </p>
-          </section>
-
-          {/* Placement slider */}
-          <section>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wide text-sidebar-foreground/75 flex items-center gap-1">
-                <Award className="h-3.5 w-3.5" /> Min Avg Package
-              </h3>
-              <span className="text-sm font-bold text-teal-700 dark:text-teal-400 tabular-nums">
-                {filters.minAvgPackage >= 25
-                  ? "25+ LPA"
-                  : `${filters.minAvgPackage} LPA`}
-              </span>
-            </div>
-            <Slider
-              value={[filters.minAvgPackage]}
-              min={0}
-              max={25}
-              step={1}
-              onValueChange={(v) =>
-                onChange({ ...filters, minAvgPackage: v[0] })
-              }
-              aria-label="Minimum average package in LPA"
-            />
-            <div className="flex justify-between mt-1.5 text-[10px] text-sidebar-foreground/60">
-              <span>0 LPA</span>
-              <span>12 LPA</span>
-              <span>25+ LPA</span>
-            </div>
           </section>
 
           {/* Distance slider */}
@@ -519,15 +522,15 @@ export default function Sidebar({
               <Badge className="bg-teal-600 text-[10px] h-5">{visibleCount}</Badge>
             </div>
             <div className="chm-scroll max-h-80 overflow-y-auto space-y-1.5 pr-1">
-              {visibleColleges.length === 0 && (
+              {shownColleges.length === 0 && (
                 <div className="text-center py-6 text-xs text-sidebar-foreground/60">
                   <MapPin className="h-5 w-5 mx-auto mb-1 opacity-40" />
                   No colleges match your filters.
                 </div>
               )}
-              {visibleColleges.map((c) => {
-                const meta = TIER_META[c.tier];
-                const dist = haversineKm(city.hub.position, c.position);
+              {shownColleges.map((c) => {
+                const meta = TYPE_META[instituteType(c)];
+                const dist = hubDistanceKm(city, c);
                 const active = selectedCollegeId === c.id;
                 return (
                   <button
@@ -553,12 +556,16 @@ export default function Sidebar({
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-semibold text-sidebar-foreground truncate">
                         {c.shortName}
-                        <span className="ml-1 text-[10px] font-normal text-sidebar-foreground/60">
-                          #{c.instituteCode}
-                        </span>
+                        {c.instituteCode && (
+                          <span className="ml-1 text-[10px] font-normal text-sidebar-foreground/60">
+                            #{c.instituteCode}
+                          </span>
+                        )}
                       </div>
                       <div className="text-[10px] text-sidebar-foreground/75 truncate">
-                        {meta.label} · {dist.toFixed(1)} km · {c.placement.avgPackage} LPA
+                        {meta.label}
+                        {dist !== null ? ` · ${dist.toFixed(1)} km` : ""}
+                        {c.totalIntake ? ` · ${c.totalIntake} seats` : ""}
                       </div>
                     </div>
                   </button>
@@ -579,6 +586,27 @@ export default function Sidebar({
             <Compass className="h-3.5 w-3.5" />
             Reset all filters
           </Button>
+          <p className="mt-2 text-[10px] leading-snug text-sidebar-foreground/60">
+            Data from the{" "}
+            <a
+              href={PROVENANCE.capPortal}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-sidebar-foreground"
+            >
+              State CET Cell CAP portal
+            </a>{" "}
+            ({PROVENANCE.capYear}) and{" "}
+            <a
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-sidebar-foreground"
+            >
+              OpenStreetMap
+            </a>
+            . Retrieved {PROVENANCE.generatedOn}.
+          </p>
         </div>
       </aside>
     </>

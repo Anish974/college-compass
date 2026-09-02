@@ -7,6 +7,8 @@
     "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
     "start": "node .next/standalone/server.js",
     "lint": "eslint .",
+    "data:build": "python scripts/build_dataset.py .cap-cache",
+    "data:test": "python scripts/test_parse_cap_cutoffs.py .cap-cache",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",

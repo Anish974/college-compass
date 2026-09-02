@@ -24,11 +24,16 @@ import ThemeController from "@/components/theme-controller";
 import {
   CITIES,
   TOTAL_COLLEGES,
-  haversineKm,
-  branchEligible,
+  TYPE_META,
+  INSTITUTE_TYPES,
+  DEFAULT_FILTERS,
+  PROVENANCE,
+  CAP_ROUND_LABELS,
+  visibleColleges,
   type CityId,
+  type CapRound,
+  type Filters,
 } from "@/lib/college-data";
-import type { Filters } from "@/components/map-view";
 
 // Leaflet must only run in the browser — disable SSR for the map.
 const MapView = dynamic(() => import("@/components/map-view"), {
@@ -42,17 +47,6 @@ const MapView = dynamic(() => import("@/components/map-view"), {
     </div>
   ),
 });
-
-const DEFAULT_FILTERS: Filters = {
-  tiers: [1, 2, 3],
-  maxDistance: 50,
-  minAvgPackage: 0,
-  branch: "All",
-  percentile: 99.9,
-  showTransit: true,
-  showLandmarks: true,
-  showThreads: true,
-};
 
 export default function Home() {
   // resolvedTheme is undefined on first client render; MapView handles the
@@ -74,14 +68,7 @@ export default function Home() {
   const city = CITIES[cityId];
 
   const visibleCount = useMemo(
-    () =>
-      city.colleges.filter(
-        (c) =>
-          filters.tiers.includes(c.tier) &&
-          haversineKm(city.hub.position, c.position) <= filters.maxDistance &&
-          c.placement.avgPackage >= filters.minAvgPackage &&
-          branchEligible(c, filters.branch, filters.percentile)
-      ).length,
+    () => visibleColleges(city, filters).length,
     [city, filters]
   );
 
@@ -107,7 +94,10 @@ export default function Home() {
     setSearchQuery("");
   };
 
-  const currentTheme = theme === "system" ? "blue" : (theme || "light");
+  const currentTheme = (theme === "system" ? "blue" : theme || "light") as
+    | "light"
+    | "dark"
+    | "blue";
   const isMapDark = currentTheme === "dark" || currentTheme === "blue";
 
   return (
@@ -142,7 +132,8 @@ export default function Home() {
                 </h1>
                 <p className="text-[11px] leading-tight truncate flex items-center gap-1 text-header-foreground/80">
                   <MapPinned className="h-3 w-3" />
-                  {city.name} · Maharashtra engineering map
+                  {city.name} · MHT-CET CAP {PROVENANCE.capYear} ·{" "}
+                  {CAP_ROUND_LABELS[filters.round]}
                 </p>
               </div>
             </div>
@@ -213,6 +204,11 @@ export default function Home() {
           <CollegeCard
             cityId={cityId}
             collegeId={selectedCollegeId}
+            round={filters.round}
+            seatType={filters.seatType}
+            onRoundChange={(r: CapRound) =>
+              setFilters((f) => ({ ...f, round: r }))
+            }
             onClose={() => setSelectedCollegeId(null)}
           />
         </div>
@@ -220,22 +216,60 @@ export default function Home() {
 
       {/* ===== Sticky Footer ===== */}
       <footer className="mt-auto shrink-0 border-t border-header-border bg-header px-4 py-2.5 text-header-foreground">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-1.5 text-center sm:text-left">
-          <p className="text-[11px] text-header-foreground/75">
-            Built with{" "}
-            <span className="font-semibold">
-              Leaflet.js
-            </span>{" "}
-            &{" "}
-            <span className="font-semibold">
-              OpenStreetMap / CartoDB
-            </span>{" "}
-            · {TOTAL_COLLEGES} engineering colleges across Maharashtra
+        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between text-center sm:text-left">
+          <p className="text-[11px] leading-snug text-header-foreground/75">
+            Cutoffs, institute codes, addresses and intakes are taken from the
+            official{" "}
+            <a
+              href={PROVENANCE.capPortal}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold underline underline-offset-2"
+            >
+              DTE / State CET Cell CAP portal
+            </a>{" "}
+            for A.Y. {PROVENANCE.capYear} (
+            <a
+              href={PROVENANCE.capCutoffPdfs["1"]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              R-I
+            </a>
+            ,{" "}
+            <a
+              href={PROVENANCE.capCutoffPdfs["2"]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              R-II
+            </a>
+            ,{" "}
+            <a
+              href={PROVENANCE.capCutoffPdfs["3"]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              R-III
+            </a>{" "}
+            cut-off PDFs); map data ©{" "}
+            <a
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              OpenStreetMap
+            </a>{" "}
+            contributors. Retrieved {PROVENANCE.generatedOn}. Always confirm
+            against the official portal before acting on it.
           </p>
-          <p className="text-[11px] text-header-foreground/60 flex items-center gap-1">
-            Made with{" "}
-            <Heart className="h-3 w-3 fill-rose-500 text-rose-500" /> for campus
-            explorers
+          <p className="shrink-0 text-[11px] text-header-foreground/60 flex items-center justify-center gap-1">
+            {TOTAL_COLLEGES} colleges · made with{" "}
+            <Heart className="h-3 w-3 fill-rose-500 text-rose-500" />
           </p>
         </div>
       </footer>
@@ -246,21 +280,11 @@ export default function Home() {
 function Legend() {
   const items = [
     { icon: <Star className="h-3 w-3" />, color: "#14b8a6", label: "City Hub" },
-    {
+    ...INSTITUTE_TYPES.map((t) => ({
       icon: <GraduationCap className="h-3 w-3" />,
-      color: "#10b981",
-      label: "Tier 1",
-    },
-    {
-      icon: <GraduationCap className="h-3 w-3" />,
-      color: "#3b82f6",
-      label: "Tier 2",
-    },
-    {
-      icon: <GraduationCap className="h-3 w-3" />,
-      color: "#f97316",
-      label: "Tier 3",
-    },
+      color: TYPE_META[t].color,
+      label: TYPE_META[t].label,
+    })),
     { icon: <Train className="h-3 w-3" />, color: "#8b5cf6", label: "Railway" },
     { icon: <Bus className="h-3 w-3" />, color: "#eab308", label: "Bus Stop" },
     { icon: <Star className="h-3 w-3" />, color: "#ec4899", label: "Landmark" },

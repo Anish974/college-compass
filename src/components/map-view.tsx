@@ -7,13 +7,13 @@ import {
   CITIES,
   getCity,
   getAllTransit,
-  haversineKm,
-  TIER_META,
-  branchEligible,
+  hubDistanceKm,
+  instituteType,
+  visibleColleges,
+  TYPE_META,
   type CityId,
-  type College,
   type CityData,
-  type BranchFilter,
+  type Filters,
 } from "@/lib/college-data";
 import {
   collegeIcon,
@@ -23,16 +23,7 @@ import {
   hubIcon,
 } from "@/lib/marker-icons";
 
-export interface Filters {
-  tiers: number[];
-  maxDistance: number;
-  minAvgPackage: number;
-  branch: BranchFilter;
-  percentile: number;
-  showTransit: boolean;
-  showLandmarks: boolean;
-  showThreads: boolean;
-}
+export type { Filters } from "@/lib/college-data";
 
 interface MapViewProps {
   cityId: CityId;
@@ -42,19 +33,6 @@ interface MapViewProps {
   focusCollegeId?: string | null;
   focusNonce?: number;
   cityCenterNonce?: number;
-}
-
-export function filterColleges(
-  city: CityData,
-  filters: Filters
- ): College[] {
-  return city.colleges.filter(
-    (c) =>
-      filters.tiers.includes(c.tier) &&
-      haversineKm(city.hub.position, c.position) <= filters.maxDistance &&
-      c.placement.avgPackage >= filters.minAvgPackage &&
-      branchEligible(c, filters.branch, filters.percentile)
-  );
 }
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
@@ -169,7 +147,7 @@ export default function MapView({
       ...city.colleges.map((c) => c.position),
       ...getAllTransit(city).map((t) => t.position),
       ...city.landmarks.map((l) => l.position),
-    ];
+    ].filter((p): p is NonNullable<typeof p> => p !== null);
     const bounds = L.latLngBounds(
       all.map((p) => [p.lat, p.lng] as [number, number])
     );
@@ -235,27 +213,34 @@ export default function MapView({
       radiusCircleRef.current.setRadius(f.maxDistance * 1000);
     }
 
-    const visibleColleges = filterColleges(city, f);
+    // Only colleges with a coordinate can be drawn; the sidebar still lists the
+    // rest so a real college never silently disappears.
+    const shown = visibleColleges(city, f).filter((c) => c.position);
 
     // ---- Colleges ----
     const clgLayer = collegeLayerRef.current!;
     clgLayer.clearLayers();
-    visibleColleges.forEach((c) => {
-      const meta = TIER_META[c.tier];
-      const dist = haversineKm(city.hub.position, c.position);
-      const marker = L.marker([c.position.lat, c.position.lng], {
+    shown.forEach((c) => {
+      const type = instituteType(c);
+      const meta = TYPE_META[type];
+      const dist = hubDistanceKm(city, c);
+      const at = c.position!;
+      const code = c.instituteCode ? `Code ${c.instituteCode} · ` : "";
+      const approx =
+        c.positionSource === "approximate" ? " · approx. location" : "";
+      const marker = L.marker([at.lat, at.lng], {
         icon: L.divIcon({
           className: "chm-college-divicon",
-          html: collegeIcon(c.tier),
+          html: collegeIcon(type),
           iconSize: [28, 28],
           iconAnchor: [14, 30],
         }),
         zIndexOffset: 500,
       });
       marker.bindTooltip(
-        `<strong>${c.name}</strong><br/><span style="opacity:.85">Code ${c.instituteCode} · ${meta.label} · ${dist.toFixed(
-          1
-        )} km · ${c.placement.avgPackage} LPA avg</span>`,
+        `<strong>${c.name}</strong><br/><span style="opacity:.85">${code}${
+          meta.label
+        } · ${dist !== null ? `${dist.toFixed(1)} km` : "distance n/a"}${approx}</span>`,
         { direction: "top", offset: [0, -28], className: "chm-thread-tooltip" }
       );
       marker.on("click", () => {
@@ -268,13 +253,14 @@ export default function MapView({
     const threadLayer = threadLayerRef.current!;
     threadLayer.clearLayers();
     if (f.showThreads) {
-      visibleColleges.forEach((c) => {
-        const meta = TIER_META[c.tier];
-        const dist = haversineKm(city.hub.position, c.position);
+      shown.forEach((c) => {
+        const meta = TYPE_META[instituteType(c)];
+        const dist = hubDistanceKm(city, c);
+        const at = c.position!;
         const line = L.polyline(
           [
             [city.hub.position.lat, city.hub.position.lng],
-            [c.position.lat, c.position.lng],
+            [at.lat, at.lng],
           ],
           {
             color: meta.color,
@@ -285,15 +271,13 @@ export default function MapView({
           }
         );
         line.bindTooltip(
-          `<strong>${c.shortName}</strong> · ${dist.toFixed(1)} km`,
+          `<strong>${c.shortName}</strong> · ${
+            dist !== null ? `${dist.toFixed(1)} km` : "—"
+          }`,
           { sticky: true, className: "chm-thread-tooltip", direction: "top" }
         );
-        line.on("mouseover", function () {
-          (this as L.Polyline).setStyle({ weight: 4, opacity: 1 });
-        });
-        line.on("mouseout", function () {
-          (this as L.Polyline).setStyle({ weight: 2, opacity: 0.55 });
-        });
+        line.on("mouseover", () => line.setStyle({ weight: 4, opacity: 1 }));
+        line.on("mouseout", () => line.setStyle({ weight: 2, opacity: 0.55 }));
         threadLayer.addLayer(line);
       });
     }
@@ -302,8 +286,10 @@ export default function MapView({
     const transitLayer = transitLayerRef.current!;
     transitLayer.clearLayers();
     if (f.showTransit) {
+      const railIds = new Set(city.railways.map((r) => r.id));
       getAllTransit(city).forEach((t) => {
-        const html = t.type === "railway" ? railwayIcon() : busIcon();
+        const isRail = railIds.has(t.id);
+        const html = isRail ? railwayIcon() : busIcon();
         const marker = L.marker([t.position.lat, t.position.lng], {
           icon: L.divIcon({
             className: "chm-transit-divicon",
@@ -315,7 +301,7 @@ export default function MapView({
         });
         marker.bindTooltip(
           `<strong>${t.name}</strong><br/><span style="opacity:.85">${
-            t.type === "railway" ? "Railway Station" : "Bus Stop"
+            isRail ? "Railway Station" : "Bus Stop"
           }</span>`,
           {
             direction: "top",
@@ -326,7 +312,11 @@ export default function MapView({
         marker.bindPopup(
           `<div style="min-width:170px">
             <div style="font-weight:700;font-size:13px">${t.name}</div>
-            <div style="margin-top:3px;color:#64748b;font-size:12px">${t.description}</div>
+            <div style="margin-top:3px;color:#64748b;font-size:12px">${
+              isRail ? "Railway station" : "Bus stand"
+            } · <a href="https://www.openstreetmap.org/${
+              t.osm
+            }" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></div>
           </div>`
         );
         transitLayer.addLayer(marker);
@@ -358,7 +348,9 @@ export default function MapView({
         marker.bindPopup(
           `<div style="min-width:170px">
             <div style="font-weight:700;font-size:13px">${l.name}</div>
-            <div style="margin-top:3px;color:#64748b;font-size:12px">${l.description}</div>
+            <div style="margin-top:3px;color:#64748b;font-size:12px">Landmark · <a href="https://www.openstreetmap.org/${
+              l.osm
+            }" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></div>
           </div>`
         );
         lmLayer.addLayer(marker);
@@ -414,19 +406,19 @@ function bindHub(marker: L.Marker, city: CityData) {
   marker.bindPopup(
     `<div style="min-width:190px">
       <div style="font-weight:700;font-size:14px;color:#0d9488">${city.hub.name}</div>
-      <div style="margin-top:4px;color:#475569;font-size:12px">${city.hub.description}</div>
+      <div style="margin-top:4px;color:#475569;font-size:12px">All distances on this map are measured from here. Location from <a href="https://www.openstreetmap.org/${city.hub.osm}" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</div>
     </div>`
   );
 }
 
 function findInCity(cityId: CityId, collegeId: string) {
   const c = getCity(cityId).colleges.find((x) => x.id === collegeId);
-  return c ? c.position : null;
+  return c?.position ?? null;
 }
 function findGlobal(collegeId: string) {
   for (const city of Object.values(CITIES)) {
     const c = city.colleges.find((x) => x.id === collegeId);
-    if (c) return c.position;
+    if (c?.position) return c.position;
   }
   return null;
 }

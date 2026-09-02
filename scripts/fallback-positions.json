@@ -1,0 +1,242 @@
+{
+ "pune-coep": {
+  "lat": 18.5292,
+  "lng": 73.8565
+ },
+ "pune-pict": {
+  "lat": 18.4575,
+  "lng": 73.8508
+ },
+ "pune-cummins": {
+  "lat": 18.4881,
+  "lng": 73.8164
+ },
+ "pune-vit": {
+  "lat": 18.4635,
+  "lng": 73.8682
+ },
+ "pune-pccoe": {
+  "lat": 18.6548,
+  "lng": 73.7628
+ },
+ "pune-mitwpu": {
+  "lat": 18.5182,
+  "lng": 73.8152
+ },
+ "pune-viit": {
+  "lat": 18.4594,
+  "lng": 73.8967
+ },
+ "pune-aissms": {
+  "lat": 18.5317,
+  "lng": 73.867
+ },
+ "pune-dypatil": {
+  "lat": 18.6449,
+  "lng": 73.7621
+ },
+ "pune-mmcoe": {
+  "lat": 18.4902,
+  "lng": 73.8124
+ },
+ "pune-jscoe": {
+  "lat": 18.5147,
+  "lng": 73.9339
+ },
+ "pune-scoe": {
+  "lat": 18.4691,
+  "lng": 73.8362
+ },
+ "pune-zcoer": {
+  "lat": 18.4485,
+  "lng": 73.8242
+ },
+ "pune-trinity": {
+  "lat": 18.4357,
+  "lng": 73.8998
+ },
+ "pune-apcoe": {
+  "lat": 18.5144,
+  "lng": 73.8441
+ },
+ "pune-nbn": {
+  "lat": 18.4554,
+  "lng": 73.8239
+ },
+ "pune-alard": {
+  "lat": 18.5991,
+  "lng": 73.7422
+ },
+ "mumbai-vjti": {
+  "lat": 19.0222,
+  "lng": 72.8561
+ },
+ "mumbai-spit": {
+  "lat": 19.1232,
+  "lng": 72.8361
+ },
+ "mumbai-ict": {
+  "lat": 19.0225,
+  "lng": 72.8576
+ },
+ "mumbai-djsanghvi": {
+  "lat": 19.1025,
+  "lng": 72.8373
+ },
+ "mumbai-tsec": {
+  "lat": 19.0645,
+  "lng": 72.8359
+ },
+ "mumbai-crce": {
+  "lat": 19.0427,
+  "lng": 72.8202
+ },
+ "mumbai-kjsomaiya": {
+  "lat": 19.0731,
+  "lng": 72.8998
+ },
+ "mumbai-vidyalankar": {
+  "lat": 19.0227,
+  "lng": 72.8689
+ },
+ "mumbai-atharva": {
+  "lat": 19.1952,
+  "lng": 72.8184
+ },
+ "mumbai-sies": {
+  "lat": 19.0359,
+  "lng": 73.0228
+ },
+ "mumbai-terna": {
+  "lat": 19.0305,
+  "lng": 73.0182
+ },
+ "mumbai-rgit": {
+  "lat": 19.1352,
+  "lng": 72.8258
+ },
+ "mumbai-sfit": {
+  "lat": 19.2439,
+  "lng": 72.8559
+ },
+ "mumbai-mpstme": {
+  "lat": 19.1121,
+  "lng": 72.8404
+ },
+ "mumbai-donbosco": {
+  "lat": 19.0812,
+  "lng": 72.8885
+ },
+ "mumbai-pillai": {
+  "lat": 18.9814,
+  "lng": 73.1785
+ },
+ "nagpur-vnit": {
+  "lat": 21.1231,
+  "lng": 79.0515
+ },
+ "nagpur-rcoem": {
+  "lat": 21.1766,
+  "lng": 79.0617
+ },
+ "nagpur-ycce": {
+  "lat": 21.0991,
+  "lng": 79.0042
+ },
+ "nagpur-ghrce": {
+  "lat": 21.1011,
+  "lng": 79.0028
+ },
+ "nagpur-gcoen": {
+  "lat": 21.0345,
+  "lng": 79.0805
+ },
+ "nagpur-pce": {
+  "lat": 21.1215,
+  "lng": 78.9912
+ },
+ "nagpur-anjuman": {
+  "lat": 21.161,
+  "lng": 79.0833
+ },
+ "nagpur-kdk": {
+  "lat": 21.1344,
+  "lng": 79.1172
+ },
+ "nagpur-srpce": {
+  "lat": 21.1118,
+  "lng": 79.1624
+ },
+ "nagpur-tgpcet": {
+  "lat": 21.0312,
+  "lng": 79.0304
+ },
+ "nagpur-jdcoem": {
+  "lat": 21.2268,
+  "lng": 79.0142
+ },
+ "nagpur-gniet": {
+  "lat": 21.2014,
+  "lng": 79.0069
+ },
+ "nagpur-nit": {
+  "lat": 21.2181,
+  "lng": 79.0289
+ },
+ "nagpur-scet": {
+  "lat": 21.0801,
+  "lng": 79.1664
+ },
+ "nagpur-iiit": {
+  "lat": 20.9491,
+  "lng": 79.0296
+ },
+ "nagpur-svpcet": {
+  "lat": 21.0389,
+  "lng": 79.045
+ },
+ "nagpur-sbjit": {
+  "lat": 21.193,
+  "lng": 78.956
+ },
+ "nagpur-pbcoe": {
+  "lat": 21.114,
+  "lng": 79.117
+ },
+ "nagpur-pjlce": {
+  "lat": 21.1335,
+  "lng": 79.124
+ },
+ "nagpur-wcem": {
+  "lat": 20.903,
+  "lng": 78.982
+ },
+ "amravati-gcoea": {
+  "lat": 20.9414,
+  "lng": 77.7512
+ },
+ "amravati-prmitr": {
+  "lat": 20.9318,
+  "lng": 77.7121
+ },
+ "amravati-prpote": {
+  "lat": 20.9548,
+  "lng": 77.7264
+ },
+ "amravati-sipna": {
+  "lat": 20.9602,
+  "lng": 77.7589
+ },
+ "amravati-mngm": {
+  "lat": 20.9333,
+  "lng": 77.7145
+ },
+ "amravati-hvpm": {
+  "lat": 20.9272,
+  "lng": 77.7505
+ },
+ "amravati-drgitr": {
+  "lat": 20.9248,
+  "lng": 77.7712
+ }
+}

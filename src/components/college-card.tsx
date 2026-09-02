@@ -1,45 +1,62 @@
 "use client";
 
+import { useState } from "react";
 import {
   X,
   ExternalLink,
   Train,
   Bus,
   MapPin,
-  Calendar,
   Ruler,
   GraduationCap,
   Navigation,
-  TrendingUp,
-  Award,
   Building2,
   Target,
-  CheckCircle2,
-  MinusCircle,
+  Users,
+  FileText,
+  Info,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   getCity,
-  TIER_META,
-  BRANCHES,
+  TYPE_META,
+  CAP_ROUNDS,
+  CAP_ROUND_LABELS,
+  SEAT_TYPE_LABELS,
+  PROVENANCE,
+  courseCutoff,
+  availableSeatTypes,
+  hubDistanceKm,
   haversineKm,
-  nearestTransit,
+  instituteType,
+  nearestPoint,
+  summaryLine,
+  type CapRound,
   type CityId,
+  type SeatType,
 } from "@/lib/college-data";
 import { cn } from "@/lib/utils";
 
 interface CollegeCardProps {
   cityId: CityId;
   collegeId: string | null;
+  round: CapRound;
+  seatType: SeatType;
+  onRoundChange: (r: CapRound) => void;
   onClose: () => void;
 }
 
 export default function CollegeCard({
   cityId,
   collegeId,
+  round,
+  seatType,
+  onRoundChange,
   onClose,
 }: CollegeCardProps) {
+  const [showAllCourses, setShowAllCourses] = useState(false);
   const city = getCity(cityId);
   const college = collegeId
     ? city.colleges.find((c) => c.id === collegeId)
@@ -47,32 +64,41 @@ export default function CollegeCard({
 
   if (!college) return null;
 
-  const meta = TIER_META[college.tier];
-  const dist = haversineKm(city.hub.position, college.position);
-  const nearestRail = nearestTransit(college, city.railways);
-  const nearestBus = nearestTransit(college, city.busStops);
-  const railDist = nearestRail
-    ? haversineKm(college.position, nearestRail.position)
-    : null;
-  const busDist = nearestBus
-    ? haversineKm(college.position, nearestBus.position)
-    : null;
+  const meta = TYPE_META[instituteType(college)];
+  const dist = hubDistanceKm(city, college);
+  const nearestRail = nearestPoint(college, city.railways);
+  const nearestBus = nearestPoint(college, city.busStops);
+  const railDist =
+    nearestRail && college.position
+      ? haversineKm(college.position, nearestRail.position)
+      : null;
+  const busDist =
+    nearestBus && college.position
+      ? haversineKm(college.position, nearestBus.position)
+      : null;
 
-  const fmtPkg = (v: number) =>
-    v >= 100 ? `₹${(v / 100).toFixed(1)} Cr` : `₹${v.toFixed(1)} LPA`;
-
-  const offeredBranches = BRANCHES.filter((b) => b in college.cutoffs);
+  // Courses with a published Open-category line for the selected round come
+  // first; the rest are still listed, marked as not published.
+  const courses = [...college.courses].sort((a, b) => {
+    const ca = courseCutoff(a, round, seatType);
+    const cb = courseCutoff(b, round, seatType);
+    if (ca === null && cb === null) return a.name.localeCompare(b.name);
+    if (ca === null) return 1;
+    if (cb === null) return -1;
+    return cb - ca;
+  });
+  const visibleCourses = showAllCourses ? courses : courses.slice(0, 6);
 
   return (
     <div
       className={cn(
-        "chm-card-in pointer-events-auto absolute z-[600] bottom-4 right-4 left-4 sm:left-auto sm:w-[372px]",
+        "chm-card-in pointer-events-auto absolute z-[600] bottom-4 right-4 left-4 sm:left-auto sm:w-[390px]",
         "rounded-2xl bg-card text-card-foreground shadow-2xl border border-border overflow-hidden"
       )}
       role="dialog"
       aria-label={`${college.name} details`}
     >
-      {/* Tier banner */}
+      {/* Institute-type banner */}
       <div
         className="relative px-4 pt-4 pb-3"
         style={{
@@ -94,120 +120,184 @@ export default function CollegeCard({
           <Badge className="bg-white/25 text-white border-0 hover:bg-white/25 text-[10px]">
             {meta.label}
           </Badge>
-          <span className="ml-auto mr-9 inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white">
-            <Building2 className="h-3 w-3" />
-            Code {college.instituteCode}
-          </span>
+          {college.instituteCode && (
+            <span className="ml-auto mr-9 inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white">
+              <Building2 className="h-3 w-3" />
+              DTE {college.instituteCode}
+            </span>
+          )}
         </div>
         <h3 className="text-white font-bold text-base sm:text-lg leading-tight pr-8">
           {college.name}
         </h3>
         <p className="text-white/80 text-xs mt-0.5">
-          {college.shortName} · Est. {college.established} · {city.name}
+          {college.shortName} · {city.name}
         </p>
       </div>
 
       {/* Body */}
-      <div className="chm-scroll max-h-[60vh] overflow-y-auto px-4 py-3 space-y-3">
+      <div className="chm-scroll max-h-[62vh] overflow-y-auto px-4 py-3 space-y-3">
         <p className="text-xs text-muted-foreground leading-relaxed">
-          {college.description}
+          {summaryLine(college)}
         </p>
+        {college.address && (
+          <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground">
+            <MapPin className="mt-0.5 h-3 w-3 shrink-0" />
+            {college.address}
+          </p>
+        )}
 
-        {/* Placement summary */}
-        <div className="rounded-xl border border-border bg-gradient-to-br from-muted/50 to-card p-2.5">
-          <div className="flex items-center gap-1.5 mb-2">
-            <Award className="h-3.5 w-3.5 text-amber-500" />
-            <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Placement Summary
-            </span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mb-2">
-            <div className="rounded-lg bg-muted/30 border border-border p-2">
-              <div className="flex items-center gap-1 text-[10px] font-medium uppercase text-muted-foreground">
-                <TrendingUp className="h-3 w-3" /> Avg
+        {college.capParticipant ? (
+          <>
+            {/* Round switch */}
+            <div className="rounded-xl border border-border p-2.5">
+              <div className="flex items-center gap-1.5 mb-2">
+                <Target className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  CAP closing percentile · {SEAT_TYPE_LABELS[seatType]}
+                </span>
               </div>
-              <div className="text-sm font-bold text-card-foreground tabular-nums">
-                {fmtPkg(college.placement.avgPackage)}
-              </div>
-            </div>
-            <div className="rounded-lg bg-muted/30 border border-border p-2">
-              <div className="flex items-center gap-1 text-[10px] font-medium uppercase text-muted-foreground">
-                <Award className="h-3 w-3" /> Highest
-              </div>
-              <div className="text-sm font-bold text-emerald-500 tabular-nums">
-                {fmtPkg(college.placement.highestPackage)}
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-1">
-            {college.placement.topRecruiters.map((r) => (
-              <span
-                key={r}
-                className="rounded-md bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground"
-              >
-                {r}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Branch cutoffs */}
-        <div className="rounded-xl border border-border p-2.5">
-          <div className="flex items-center gap-1.5 mb-2">
-            <Target className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
-            <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Round-1 Cutoff (MHT-CET %ile)
-            </span>
-          </div>
-          {offeredBranches.length === 0 ? (
-            <p className="text-[11px] text-muted-foreground pl-1">
-              Specialised institute — standard B.Tech branches not offered.
-            </p>
-          ) : (
-            <div className="grid grid-cols-2 gap-1.5">
-              {BRANCHES.map((b) => {
-                const cut = college.cutoffs[b];
-                const offered = cut !== undefined;
-                return (
-                  <div
-                    key={b}
+              <div className="grid grid-cols-3 gap-1.5 mb-2">
+                {CAP_ROUNDS.map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => onRoundChange(r)}
+                    aria-pressed={round === r}
                     className={cn(
-                      "flex items-center justify-between rounded-md px-2 py-1 text-[11px]",
-                      offered
-                        ? "bg-muted/40"
-                        : "opacity-50"
+                      "rounded-md border px-2 py-1 text-[11px] font-semibold transition-colors",
+                      round === r
+                        ? "border-teal-600 bg-teal-600 text-white"
+                        : "border-border bg-muted/30 text-muted-foreground hover:border-muted-foreground"
                     )}
+                    suppressHydrationWarning
                   >
-                    <span className="flex items-center gap-1 text-muted-foreground">
-                      {offered ? (
-                        <CheckCircle2 className="h-3 w-3 text-teal-500" />
-                      ) : (
-                        <MinusCircle className="h-3 w-3 opacity-60" />
-                      )}
-                      {b}
-                    </span>
-                    <span className="font-semibold text-card-foreground tabular-nums">
-                      {offered ? cut.toFixed(1) : "—"}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+                    {CAP_ROUND_LABELS[r]}
+                  </button>
+                ))}
+              </div>
 
-        {/* Key stats grid */}
+              <div className="space-y-1">
+                {visibleCourses.map((course) => {
+                  const cut = courseCutoff(course, round, seatType);
+                  const elsewhere = availableSeatTypes(course, round).filter(
+                    (s) => s !== seatType
+                  );
+                  return (
+                    <div
+                      key={course.choiceCode}
+                      className={cn(
+                        "flex items-center gap-2 rounded-md px-2 py-1 text-[11px]",
+                        cut !== null ? "bg-muted/40" : "opacity-60"
+                      )}
+                    >
+                      <span className="min-w-0 flex-1 truncate text-muted-foreground">
+                        {course.name}
+                        {course.intake ? (
+                          <span className="ml-1 text-[10px] opacity-70">
+                            · {course.intake} seats
+                          </span>
+                        ) : null}
+                      </span>
+                      {cut !== null ? (
+                        <span className="font-semibold tabular-nums text-card-foreground">
+                          {cut.toFixed(4)}
+                        </span>
+                      ) : (
+                        <span
+                          className="text-[10px] text-muted-foreground"
+                          title={
+                            elsewhere.length
+                              ? `Published for: ${elsewhere
+                                  .map((s) => SEAT_TYPE_LABELS[s])
+                                  .join(", ")}`
+                              : "No Open-category allotment published for this round"
+                          }
+                        >
+                          {elsewhere.length
+                            ? SEAT_TYPE_LABELS[elsewhere[0]]
+                            : "not published"}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+                {courses.length === 0 && (
+                  <p className="px-1 text-[11px] text-muted-foreground">
+                    No courses listed for this institute in the official CAP
+                    seat matrix.
+                  </p>
+                )}
+              </div>
+
+              {courses.length > 6 && (
+                <button
+                  onClick={() => setShowAllCourses((v) => !v)}
+                  className="mt-1.5 w-full rounded-md py-1 text-[10px] font-semibold text-teal-700 hover:bg-muted/40 dark:text-teal-400"
+                  suppressHydrationWarning
+                >
+                  {showAllCourses
+                    ? "Show fewer courses"
+                    : `Show all ${courses.length} courses`}
+                </button>
+              )}
+
+              <p className="mt-1.5 flex items-start gap-1 text-[10px] leading-snug text-muted-foreground">
+                <Info className="mt-0.5 h-3 w-3 shrink-0" />
+                Open-category (GOPEN / LOPEN) closing percentile from the
+                official {CAP_ROUND_LABELS[round]} cut-off list, A.Y.{" "}
+                {PROVENANCE.capYear}. &ldquo;Not published&rdquo; means no
+                Open-category candidate was allotted that seat pool in this
+                round — it is not a zero.
+              </p>
+            </div>
+
+            {/* Official record links */}
+            <div className="rounded-xl border border-border p-2.5">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <FileText className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  Official sources
+                </span>
+              </div>
+              <div className="flex flex-col gap-1 text-[11px]">
+                <SourceLink
+                  href={college.sourceUrl!}
+                  label="DTE institute record (address, status, intake)"
+                />
+                <SourceLink
+                  href={PROVENANCE.capCutoffPdfs[round]}
+                  label={`${CAP_ROUND_LABELS[round]} cut-off list (PDF)`}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-2.5">
+            <div className="flex items-center gap-1.5 mb-1">
+              <AlertTriangle className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">
+                No official CAP cutoff
+              </span>
+            </div>
+            <p className="text-[11px] leading-snug text-muted-foreground">
+              {college.admissionNote} Check the institute&apos;s own website for
+              its current admission process and cutoffs.
+            </p>
+          </div>
+        )}
+
+        {/* Key stats */}
         <div className="grid grid-cols-2 gap-2">
           <Stat
             icon={<Ruler className="h-3.5 w-3.5" />}
-            label="From Hub"
-            value={`${dist.toFixed(1)} km`}
+            label={`From ${city.hub.name}`}
+            value={dist !== null ? `${dist.toFixed(1)} km` : "—"}
             tint={meta.color}
           />
           <Stat
-            icon={<Calendar className="h-3.5 w-3.5" />}
-            label="Established"
-            value={`${college.established}`}
+            icon={<Users className="h-3.5 w-3.5" />}
+            label="Sanctioned Intake"
+            value={college.totalIntake ? `${college.totalIntake}` : "—"}
             tint="#64748b"
           />
         </div>
@@ -230,16 +320,29 @@ export default function CollegeCard({
           />
         </div>
 
-        {/* Hub reference */}
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <MapPin className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
-          <span>
-            Measured from{" "}
-            <span className="font-semibold text-card-foreground">
-              {city.hub.name}
-            </span>
-          </span>
-        </div>
+        {/* Coordinate provenance */}
+        <p className="flex items-start gap-1.5 text-[10px] leading-snug text-muted-foreground">
+          <MapPin className="mt-0.5 h-3 w-3 shrink-0" />
+          {college.positionSource === "osm" && college.geo ? (
+            <>
+              Campus location from{" "}
+              <a
+                className="underline underline-offset-2"
+                href={`https://www.openstreetmap.org/${college.geo.osm}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OpenStreetMap
+              </a>{" "}
+              ({college.geo.matched}). Straight-line distances.
+            </>
+          ) : (
+            <>
+              Campus not found in OpenStreetMap — this pin is approximate and
+              distances from it are indicative only.
+            </>
+          )}
+        </p>
 
         {/* Actions */}
         <div className="flex gap-2 pt-1">
@@ -248,20 +351,18 @@ export default function CollegeCard({
             size="sm"
             className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
           >
-            <a
-              href={college.website}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={college.website} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-3.5 w-3.5" />
-              Visit Website
+              Official Website
             </a>
           </Button>
           <Button
             variant="outline"
             size="sm"
+            disabled={!college.position}
             className="flex-1 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-800 dark:hover:bg-slate-800"
             onClick={() => {
+              if (!college.position) return;
               const url = `https://www.openstreetmap.org/directions?from=${city.hub.position.lat}%2C${city.hub.position.lng}&to=${college.position.lat}%2C${college.position.lng}`;
               window.open(url, "_blank", "noopener,noreferrer");
             }}
@@ -272,6 +373,20 @@ export default function CollegeCard({
         </div>
       </div>
     </div>
+  );
+}
+
+function SourceLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-1.5 text-teal-700 hover:underline dark:text-teal-400"
+    >
+      <ExternalLink className="h-3 w-3 shrink-0" />
+      <span className="truncate">{label}</span>
+    </a>
   );
 }
 
@@ -290,7 +405,7 @@ function Stat({
     <div className="rounded-xl border border-border p-2.5 bg-muted/20">
       <div className="flex items-center gap-1.5 mb-0.5">
         <span style={{ color: tint }}>{icon}</span>
-        <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+        <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground truncate">
           {label}
         </span>
       </div>

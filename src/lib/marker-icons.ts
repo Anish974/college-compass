@@ -1,7 +1,7 @@
 // SVG-based marker HTML snippets used to build Leaflet divIcons.
 // Inline SVG keeps markers crisp, themeable, and free of external image deps.
 
-import { TIER_META, type Tier } from "./college-data";
+import { TYPE_META, type InstituteType } from "./college-data";
 
 const wrap = (inner: string, bg: string, size = 28) =>
   `<div class="chm-pin" style="width:${size}px;height:${size}px;background:${bg};">${inner}</div>`;
@@ -9,8 +9,8 @@ const wrap = (inner: string, bg: string, size = 28) =>
 const svg = (path: string) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
 
-export function collegeIcon(tier: Tier, size = 28): string {
-  const c = TIER_META[tier].color;
+export function collegeIcon(type: InstituteType, size = 28): string {
+  const c = TYPE_META[type].color;
   // graduation-cap path
   const cap =
     '<path d="M22 10L12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.5 3 6 3s6-2 6-3v-5"/>';
@@ -25,7 +25,7 @@ export function railwayIcon(size = 26): string {
 }
 
 export function busIcon(size = 26): string {
-  const bg = "#eab308"; // yellow — distinct from orange Tier 3
+  const bg = "#eab308"; // yellow — distinct from the orange affiliated pin
   const body =
     '<rect x="4" y="4" width="16" height="13" rx="3"/><path d="M4 11h16"/><path d="M7 17v2M17 17v2"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/>';
   return wrap(svg(body), bg, size);
