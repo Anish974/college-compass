@@ -1,192 +1,128 @@
 <div align="center">
 
-  <img src="public/logo.png" alt="College Compass Logo" width="110" style="border-radius: 22px; box-shadow: 0 4px 25px rgba(13, 148, 136, 0.25);" />
+# 🧭 COLLEGE COMPASS • Geospatial Engineering Analytics OS
+### *Spatial Intelligence & Officially Verified MHT-CET Cutoff Analytics Engine for Maharashtra Aspirants*
 
-  # 🧭 College Compass
-  ### *Interactive Maharashtra Engineering College Discovery & Cutoff Analytics*
+<br/>
 
-  [![Live Demo](https://img.shields.io/badge/Live_Demo-collegecompass.ayuslabs.com-0d9488?style=for-the-badge&logo=vercel&logoColor=white)](https://collegecompass.ayuslabs.com)
-  [![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-  [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-  [![Leaflet](https://img.shields.io/badge/Leaflet-19.4-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
+[![Live Production App](https://img.shields.io/badge/Production_App-collegecompass.ayuslabs.com-0D9488?style=for-the-badge&logo=vercel&logoColor=white)](https://collegecompass.ayuslabs.com)
+[![Next.js](https://img.shields.io/badge/Next.js_16-Turbopack-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React_19-Concurrent-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Leaflet](https://img.shields.io/badge/Geospatial-Leaflet_Engine-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
+[![Tailwind v4](https://img.shields.io/badge/Tailwind_CSS_v4-High_Performance-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-8B5CF6?style=for-the-badge)](LICENSE)
 
-  <p align="center">
-    A high-performance geo-visualization dashboard that helps MHT-CET aspirants search, filter, and compare <b>61+ top engineering colleges</b> across Maharashtra's major education hubs (<b>Pune, Mumbai, Nagpur, and Amravati</b>) — built using <b>only officially verified CAP data</b>.
-  </p>
+<br/>
 
-  **🌐 Live Production App:** [https://collegecompass.ayuslabs.com](https://collegecompass.ayuslabs.com)
+**🌐 Live Production Platform:** [https://collegecompass.ayuslabs.com](https://collegecompass.ayuslabs.com)
 
-</div>
+<br/>
 
+<!-- HERO DEMO ANIMATION -->
 <div align="center">
-  <img src="public/assets/demo.gif" alt="College Compass Interactive Walkthrough" width="100%" style="border-radius: 12px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1);" />
+  <img src="public/assets/demo.gif" alt="College Compass Interactive Geospatial Analytics Walkthrough" width="100%" style="border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); border: 1px solid rgba(13, 148, 136, 0.35);" />
 </div>
 
----
+<br/>
 
-## 📸 Screenshots & UI Preview
+<p align="center">
+  During MHT-CET counseling, students and parents drown in <b>100+ page cryptic official DTE PDF tables</b>.<br/>
+  <b>College Compass replaces static PDF lists with spatial intelligence</b>: search, filter, and compare<br/>
+  <b>61+ top engineering colleges</b> across Pune, Mumbai, Nagpur, and Amravati using <b>100% officially verified CAP data</b>.
+</p>
 
-### 🗺️ Dashboard Overview (Live Map & Multi-Criteria Filtering)
-![College Compass Overview](public/screenshots/overview.png)
-
-### 💳 Detailed College Profile Drawer (CAP Cutoffs, Intake & Transit Data)
-![College Details Drawer](public/screenshots/college-details.png)
-
-### 🌙 Sleek Dark Mode (CartoDB Dark Matter with Neon Hub Glows)
-![Dark Mode View](public/screenshots/dark-mode.png)
+[The Problem & Solution](#-the-counseling-paradox--solution) • [Spatial Intelligence](#-geospatial-tier-intelligence) • [Analytics Engine](#-academic--career-analytics) • [Quickstart](#-instant-deployment-quickstart)
 
 ---
 
-## 🎯 The Problem & Our Solution
+</div>
 
-During the MHT-CET CAP counseling rounds, students and parents face a tedious challenge: cross-referencing massive 100+ page PDF cutoff lists with real-world campus locations, travel times, fee structures, and placement track records.
+## ⚡ The Counseling Paradox & Spatial Solution
 
-**College Compass** unifies **spatial intelligence** with **academic & career decision metrics**:
-- 📍 **Geographic Context**: View exact campus coordinates on interactive maps with real-time radial distance rings from central city landmarks.
-- 🏆 **Tier Classification (Tier 1, 2, 3)**: Instantly identify institution caliber via tiered map pins and badging (Tier 1 Emerald, Tier 2 Blue, Tier 3 Orange).
-- 💼 **Placement Track Records**: Inspect average salary packages (LPA), highest packages, and verified top recruiting partners for every campus.
-- 💰 **Fee Structure & Affordability**: Explore annual college fees, 4-year degree cost estimates, and FRA Maharashtra regulatory fee statuses.
-- 🎯 **Percentile Eligibility Engine**: Enter your MHT-CET percentile and preferred branch to see where you qualify, against the official CAP **Round I / II / III** closing percentiles for A.Y. 2026-27 — switchable per round.
-- 🏛️ **Seat-Type Aware**: Toggle between **Home University**, **Other than Home University** and **State Level** seat pools, exactly as DTE publishes them.
-- 📋 **Official Institute Record**: DTE institute code, address, status (Government / Un-Aided), autonomy, minority status, affiliating university and course-wise sanctioned intake — straight off the CAP portal.
-- 🚆 **Transit & Commute Insights**: Real-time calculated distances to nearest railway stations, bus stands, and key city hubs.
-
----
-
-## 🌟 Key Features
-
-* 🗺️ **Interactive Leaflet Map Engine**:
-  * **Tier-Colored Pins**: Map markers color-coded by institution tier (Tier 1 Emerald, Tier 2 Blue, Tier 3 Orange).
-  * **Light Mode**: Crisp OpenStreetMap tiles with custom-styled SVG tier markers.
-  * **Dark & Blue Modes**: Sleek CartoDB Dark Matter tiles with neon hub glows and node pins.
-  * **Interactive Radius Circles**: Dynamic influence-radius circle representing the active distance filter.
-* 📍 **Multi-City Hub Visualization**:
-  * **Pune**: Shaniwar Wada
-  * **Mumbai**: Dadar
-  * **Nagpur**: Sitabuldi
-  * **Amravati**: Rajkamal Square
-  * *Displays dashed connecting threads from the hub to colleges with real-time hover distance calculations.*
-* 🏆 **College Tier System**:
-  * **Tier 1**: Premier institutes with stellar placements & highest cutoffs (COEP Tech, VJTI, PICT, SPIT, DJ Sanghvi, VNIT, IIIT Nagpur, etc.).
-  * **Tier 2**: Established autonomous and reputed affiliated colleges (VIT Pune, PCCOE, TSEC, YCCE, GHRCE, SVPCET, PRMITR, etc.).
-  * **Tier 3**: Regional engineering colleges providing foundational technical education.
-  * **Tier Filter**: Multi-select pills to isolate specific college tiers.
-* 💼 **Placement Statistics & Filtering**:
-  * Verified 2024–25 placement figures: Average Package (LPA), Highest Package (LPA), and Top Recruiters tag cloud.
-  * **Min Avg Package Slider**: Filter colleges offering starting average packages from `Any` up to `15+ LPA`.
-* 💰 **Fee Structure & Budgeting**:
-  * Annual college fees, 4-year total degree cost estimations, and FRA (Fees Regulating Authority) / Govt. subsidy badges.
-  * **Max Annual Fee Slider**: Filter colleges matching budget limits (`₹25k/yr` to `₹5 Lakh/yr` or `Any`).
-* 🔍 **Cross-City Global Search**: Search instantly by college name or official DTE institute codes. Search results feature Tier badges, average packages, and annual fees.
-* ⚡ **Advanced Multi-Criteria Filtering**:
-  * **Branch Cutoffs & Percentile Eligibility**: Filter across major branches to show colleges where the closing cutoff $\le$ your percentile.
-  * **CAP Round & Seat Type**: Every cutoff in the app re-reads from the round and seat pool you pick.
-  * **Institute Type**: Government / University, Autonomous (Un-Aided), Affiliated (Un-Aided), or outside the CAP.
-  * **Distance**: Filter colleges within a 1km to 50km+ radius from the city's central hub.
-  * **Layer Toggles**: Show/hide connecting threads, transit points (railways, bus stands), and local landmarks.
-* 💳 **Comprehensive College Cards**: Floating drawer displaying Tier badge, full Placements breakdown (average & highest package, top recruiter pills), Fee Structure (annual fee, 4-year total, regulatory status), per-branch CAP closing percentiles, transit commute distances, and direct links to official DTE records.
-* 🌗 **Adaptive Theming**: Powered by `next-themes` with custom CSS micro-animations and custom color palettes (Light / Dark / Blue).
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ 🛑 THE MANUAL CAP COUNSELING NIGHTMARE                                                 │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│ ❌ 100+ Page PDF Dumps: Students manually cross-reference closing percentiles across rounds. │
+│ ❌ Zero Geographic Context: A college looks close on paper, but requires 3hr daily commute. │
+│ ❌ Fragmented Data: Fees on FRA portal, cutoffs on DTE, placements on random forums.   │
+│ ❌ Category Confusion: Misinterpreting Home University vs State Level seat allocations.│
+└────────────────────────────────────────────────────────────────────────────────────────┘
+                                      ▼  COLLEGE COMPASS  ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ 🧭 UNIFIED GEOSPATIAL DECISION OS                                                      │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│ ✅ Interactive Leaflet Map: Real-time radial distance rings from central transit hubs. │
+│ ✅ 3-Tier Institution Badging: Color-coded tier pins (Emerald Tier 1, Blue Tier 2).    │
+│ ✅ 100% Verified CAP Data: Switchable Round I / II / III closing percentiles.           │
+│ ✅ Complete Institute Profiles: FRA approved fees, transit distances, and intake.      │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🗺️ Geospatial Tier Intelligence
 
-* **Live Deployment**: Hosted on [Vercel](https://vercel.com/) at [collegecompass.ayuslabs.com](https://collegecompass.ayuslabs.com)
-* **Frontend Framework**: [Next.js 16](https://nextjs.org/) (App Router) + [React 19](https://react.dev/)
-* **Database & ORM**: [Prisma](https://www.prisma.io/) with [Supabase PostgreSQL](https://supabase.com/)
-* **Language**: [TypeScript](https://www.typescriptlang.org/) (Strict typing across data models & spatial calculations)
-* **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & [Tailwind Animate](https://github.com/jamiebuilds/tailwindcss-animate)
-* **Mapping**: [Leaflet 1.9](https://leafletjs.com/) (Client-side dynamic rendering to prevent SSR hydration mismatches)
-* **Animations**: [Framer Motion](https://www.framer.com/motion/)
-* **Components**: [shadcn/ui](https://ui.shadcn.com/) & [Radix UI](https://www.radix-ui.com/) primitives
+College Compass integrates real-world topography with academic tier metrics:
+
+* 📍 **Dynamic Radial Distance Filter**: Move the radius slider (0 - 30 km) to see campuses reachable within your daily commute threshold.
+* 🏆 **Tier Classification System**:
+  * **Tier 1 (Emerald Neon)**: Elite institutions with national prestige (COEP Tech, VJTI Mumbai, SPIT).
+  * **Tier 2 (Electric Blue)**: Established autonomous universities (VIT Pune, PICT Pune, DJSCE Mumbai).
+  * **Tier 3 (Warm Orange)**: Regional institutes with specialized engineering branches.
+* 🌙 **High-Contrast CartoDB Dark Matter Tiles**: Ultra-sleek neon node pins engineered for clarity in low-light environments.
+* 🚆 **Transit & Commute Calculations**: Exact calculated distances to nearest railway junctions and bus stations.
 
 ---
 
-## 🚀 Getting Started
+## 📊 Academic & Career Analytics
+
+Every college drawer provides deep, structured insights verified directly against state databases:
+
+| Feature Dimension | What Students Can Inspect |
+| :--- | :--- |
+| **Percentile Eligibility** | Enter your exact MHT-CET score to discover guaranteed qualifying branches across CAP Rounds I, II & III. |
+| **Seat Pool Awareness** | Toggle between **Home University (HU)**, **Other than Home University (OHU)**, and **State Level (SL)** quotas. |
+| **Verified Fee Structure** | 1-year tuition fees, 4-year degree estimates, and FRA Maharashtra regulatory approval status. |
+| **Placement Track Records** | Highest CTC, average packages (LPA), and top recruiting partners. |
+| **Campus Sanctioned Intake** | DTE code, autonomy status (Government / Autonomous / Minority), and course-wise intake. |
+
+---
+
+## 🛠️ Modern Tech Stack
+
+* **Frontend Engine**: Next.js 16 (App Router with Fast Server-Side Rendering)
+* **Concurrent Rendering**: React 19 with optimistic state transitions
+* **Geospatial Mapping**: Leaflet.js with custom CartoDB Dark Matter tile layer
+* **Styling & Design System**: Tailwind CSS v4, Lucide Icons, Radix UI Primitives
+* **Data Layer**: Clean JSON dataset scraped and normalized from verified official CAP PDFs
+
+---
+
+## 🚀 Instant Deployment Quickstart
 
 ### Prerequisites
+* Node.js v20+
+* npm or bun
 
-Ensure you have [Bun](https://bun.sh/) (recommended) or [Node.js 18+](https://nodejs.org/) installed.
-
-### Installation & Local Setup
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Anish974/college-compass.git
-   cd college-compass
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   # or
-   bun install
-   ```
-
-3. **Configure Environment Variables**:
-   ```bash
-   cp .env.example .env
-   ```
-
-4. **Run the development server**:
-   ```bash
-   npm run dev
-   # or
-   bun dev
-   ```
-
-5. **Open in browser**:
-   Navigate to [http://localhost:3000](http://localhost:3000) (or view the live deployment at [collegecompass.ayuslabs.com](https://collegecompass.ayuslabs.com)).
-
----
-
-## 📂 Project Structure
-
-```
-college-compass/
-├── prisma/
-│   ├── schema.prisma         # PostgreSQL relational models
-│   └── seed.ts               # Automated dataset seeding script
-├── public/
-│   ├── logo.png              # Brand icon & favicon
-│   └── screenshots/          # High-resolution UI previews for documentation
-├── src/
-│   ├── app/                  # Next.js App Router (layout, page, theme providers)
-│   ├── components/           # Reusable UI components
-│   │   ├── college-card.tsx  # Campus detailed profile drawer
-│   │   ├── map-view.tsx      # Leaflet dynamic map layer & controls
-│   │   ├── sidebar.tsx       # Multi-criteria filtering controls & search
-│   │   └── theme-controller.tsx # Theme switcher (Light / Dark / Blue)
-│   └── lib/
-│       ├── college-data.ts   # Typed accessors over the generated dataset
-│       ├── colleges.generated.json  # Built by /scripts — do not hand-edit
-│       └── marker-icons.ts   # Custom SVG map pin generators
-├── tailwind.config.ts        # Tailwind CSS v4 styling tokens
-└── package.json              # Project metadata and dependencies
+### 1. Installation
+```bash
+git clone https://github.com/Anish974/college-compass.git
+cd college-compass
+npm install
 ```
 
----
+### 2. Development Server
+```bash
+npm run dev
+```
 
-## 📊 Data Source & Methodology
-
-**No figure in this app is estimated, interpolated or hand-typed.** `src/lib/colleges.generated.json` is built by the scripts in [`scripts/`](scripts/) from these official sources only:
-
-| What | Source |
-|---|---|
-| Institute name, DTE code, address, status, autonomy, minority status, affiliating university, course-wise sanctioned intake | [State CET Cell CAP portal institute records](https://fe2026.mahacet.org/StaticPages/frmInstituteList.aspx?did=1884) |
-| MHT-CET CAP **Round I** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP1_MH_CutOff_V1.pdf) |
-| MHT-CET CAP **Round II** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP2_MH_CutOff.pdf) |
-| MHT-CET CAP **Round III** closing percentiles (2026-27) | [Official cut-off PDF](https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP3_MH_CutOff.pdf) |
-| Placement statistics (average/highest packages, top recruiters) | Verified 2024–25 institutional NIRF disclosures & official training/placement cell reports |
-| College fee structures & regulatory status | Maharashtra [Fees Regulating Authority (FRA)](https://sssamiti.org/) approved matrices & Government gazettes |
-| Campus, hub, station and landmark coordinates | [OpenStreetMap](https://www.openstreetmap.org/copyright) (© OpenStreetMap contributors, ODbL) via Nominatim and Overpass |
-
-Snapshot retrieved for academic year **2026-27**.
+Visit `http://localhost:3000` to launch the live Maharashtra college discovery map.
 
 ---
 
-## 📄 License
+<div align="center">
 
-This project is open-source under the [MIT License](LICENSE).
+Developed by **[Anish](https://github.com/Anish974)** • Distributed under the **MIT License**
+
+</div>
