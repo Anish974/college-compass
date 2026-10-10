@@ -1,8 +1,8 @@
 <div align="center">
 
-  <img src="public/logo.png" alt="Campus Compass Logo" width="110" style="border-radius: 22px; box-shadow: 0 4px 25px rgba(13, 148, 136, 0.25);" />
+  <img src="public/logo.png" alt="College Compass Logo" width="110" style="border-radius: 22px; box-shadow: 0 4px 25px rgba(13, 148, 136, 0.25);" />
 
-  # 🧭 Campus Compass
+  # 🧭 College Compass
   ### *Interactive Maharashtra Engineering College Discovery & Cutoff Analytics*
 
   [![Live Demo](https://img.shields.io/badge/Live_Demo-collegecompass.ayuslabs.com-0d9488?style=for-the-badge&logo=vercel&logoColor=white)](https://collegecompass.ayuslabs.com)
@@ -21,7 +21,7 @@
 </div>
 
 <div align="center">
-  <img src="public/assets/demo.gif" alt="Campus Compass Interactive Walkthrough" width="100%" style="border-radius: 12px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1);" />
+  <img src="public/assets/demo.gif" alt="College Compass Interactive Walkthrough" width="100%" style="border-radius: 12px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1);" />
 </div>
 
 ---
@@ -29,7 +29,7 @@
 ## 📸 Screenshots & UI Preview
 
 ### 🗺️ Dashboard Overview (Live Map & Multi-Criteria Filtering)
-![Campus Compass Overview](public/screenshots/overview.png)
+![College Compass Overview](public/screenshots/overview.png)
 
 ### 💳 Detailed College Profile Drawer (CAP Cutoffs, Intake & Transit Data)
 ![College Details Drawer](public/screenshots/college-details.png)
@@ -43,7 +43,7 @@
 
 During the MHT-CET CAP counseling rounds, students and parents face a tedious challenge: cross-referencing massive 100+ page PDF cutoff lists with real-world campus locations, travel times, fee structures, and placement track records.
 
-**Campus Compass** unifies **spatial intelligence** with **academic & career decision metrics**:
+**College Compass** unifies **spatial intelligence** with **academic & career decision metrics**:
 - 📍 **Geographic Context**: View exact campus coordinates on interactive maps with real-time radial distance rings from central city landmarks.
 - 🏆 **Tier Classification (Tier 1, 2, 3)**: Instantly identify institution caliber via tiered map pins and badging (Tier 1 Emerald, Tier 2 Blue, Tier 3 Orange).
 - 💼 **Placement Track Records**: Inspect average salary packages (LPA), highest packages, and verified top recruiting partners for every campus.
