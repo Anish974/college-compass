@@ -20,6 +20,10 @@
 
 </div>
 
+<div align="center">
+  <img src="public/assets/demo.gif" alt="Campus Compass Interactive Walkthrough" width="100%" style="border-radius: 12px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1);" />
+</div>
+
 ---
 
 ## 📸 Screenshots & UI Preview

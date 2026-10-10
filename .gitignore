@@ -57,3 +57,5 @@ server.log
 /skills/
 # Cached official PDFs / scraped pages used to rebuild the dataset
 .cap-cache/
+
+brag-output/
